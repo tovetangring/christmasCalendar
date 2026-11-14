@@ -90,7 +90,7 @@ button { font: inherit; cursor: pointer; padding: 12px 18px; border-radius: 8px;
   .door:hover:not(:disabled) { transform: none; }
   .modal, .tree-pop, .tree.spin, .xmas-tree .glow, .xmas-tree .light, .wordle-tile,
   .room-flake, .candle-flame, .fire-flame, .fire-glow, .wrap-half, .wrap-bow, .wrap-scissors,
-  .petting .cat-eyes, .petting .cat-body, .cat-heart, .magic-spark, .wreath-glow-pulse, .garland-light,
+  .petting .cat-eyes, .petting .cat-body, .cat-heart, .magic-spark, .wreath-glow-pulse, .garland-light, .garland-tip,
   .axe.swing, .tree-shake, .wood-chip, .chop-popup { animation: none; }
   .tree-falling { transition: none; }
 }
@@ -268,3 +268,10 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 .garland-grab circle { animation: wreath-pulse 0.9s ease-in-out infinite alternate; }
 .garland-hint { font: bold 13px Georgia, serif; fill: #f4d58d; stroke: rgba(40, 10, 10, 0.8); stroke-width: 3px; paint-order: stroke; }
 .garland-light { filter: drop-shadow(0 0 3px currentColor); animation: twinkle 1.4s ease-in-out infinite; }
+
+/* Door 15: wind the tinsel around the tree */
+.tree-garland-door { text-align: center; margin: 4px 0 8px; }
+.tree-garland-stage { width: 300px; height: auto; border-radius: 8px; cursor: grab; user-select: none; touch-action: none; overflow: visible; }
+.tree-garland-stage:active { cursor: grabbing; }
+.tree-garland-stage.done { cursor: default; }
+.garland-tip { animation: wreath-pulse 0.9s ease-in-out infinite alternate; }

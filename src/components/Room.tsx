@@ -230,7 +230,7 @@ export function Room({ tree, showProgress, items, candles, onUnwrap }: RoomProps
             ))}
         </g>
         <g className="tree-pop">
-          {tree.chopped && <ChristmasTree tree={tree} x={28} y={212} width={196} height={274} />}
+          {tree.chopped && <ChristmasTree tree={tree} garland={items.treeGarland} x={28} y={212} width={196} height={274} />}
         </g>
         {caption && (
           <text x="410" y="508" textAnchor="middle" fontSize="15" fontWeight="bold" fill="#f4d58d" stroke="#3a2210" strokeWidth="3" paintOrder="stroke">

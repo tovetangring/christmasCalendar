@@ -1,16 +1,26 @@
 import { isLit, type TreeState } from '../lib/tree'
 import { ICONS } from '../lib/icons'
+import { TIERS, halfWidthAt } from '../lib/treeShape'
 import { SvgIcon } from './Icon'
+import { TreeBody, TreeGarland } from './TreeShape'
 
-// Twinkling lights, placed by hand inside the three tiers of the tree.
-const LIGHTS: [number, number][] = [
-  [92, 58], [110, 74], [78, 90], [118, 100], [70, 118], [130, 132], [52, 145], [146, 152],
-  [100, 138], [48, 190], [70, 175], [115, 170], [150, 195], [90, 205], [132, 208], [60, 208],
-]
+// Twinkling lights strung along the bottom of each layer of branches (they come on when the tree is fully decorated).
+const LIGHTS: [number, number][] = TIERS.flatMap((tier, i) => {
+  const y = tier.bottom - 9
+  const spread = halfWidthAt(tier, y) * 0.8
+  const count = 2 + i
+  return Array.from({ length: count }, (_, j): [number, number] => [
+    100 - spread + (2 * spread * (j + 0.5)) / count,
+    y + (j % 2 ? 2 : -1),
+  ])
+})
 const LIGHT_COLORS = ['#ffd54a', '#ff5e5e', '#5ec8ff', '#7dff8a']
 
+type Props = { tree: TreeState; garland?: boolean; x: number; y: number; width: number; height: number }
+
 // The tree as an <svg> (nested inside the room scene), positioned by x/y/width/height.
-export function ChristmasTree({ tree, x, y, width, height }: { tree: TreeState; x: number; y: number; width: number; height: number }) {
+// `garland` = the tinsel garland from door 15.
+export function ChristmasTree({ tree, garland = false, x, y, width, height }: Props) {
   const has = (id: string) => tree.decorations.some((d) => d === id)
   const lit = isLit(tree)
 
@@ -26,12 +36,10 @@ export function ChristmasTree({ tree, x, y, width, height }: { tree: TreeState; 
             <stop offset="1" stopColor="#ffe9a8" stopOpacity="0" />
           </radialGradient>
         </defs>
-        <rect x="90" y="210" width="20" height="42" fill="#6b4423" />
         <g transform="translate(0 10)">
           {lit && <circle className="glow" cx="100" cy="140" r="135" fill="url(#tree-glow)" />}
-          <polygon points="100,110 180,215 20,215" fill="#1f7a3d" />
-          <polygon points="100,70 165,150 35,150" fill="#26924a" />
-          <polygon points="100,30 150,100 50,100" fill="#2fa859" />
+          <TreeBody />
+          {garland && <TreeGarland />}
           {lit &&
             LIGHTS.map(([x, y], i) => {
               const color = LIGHT_COLORS[i % LIGHT_COLORS.length]

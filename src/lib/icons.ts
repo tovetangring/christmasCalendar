@@ -8,6 +8,7 @@ export const ICONS = {
   sack: { emoji: '💰' } as IconDef, // the little sack on the calendar page
   pack: { emoji: '📦', src: 'present-small.png' } as IconDef, // the prize that ends up under the tree
   scissors: { emoji: '✂️' } as IconDef, // from door 1; cuts open the wrapped room
+  treeGarland: { emoji: '🎊' } as IconDef, // from door 15; the tinsel on the tree is drawn
   garland: { emoji: '✨' } as IconDef, // from door 21; the garland in the room is drawn
   curtains: { emoji: '🪟' } as IconDef, // from door 19; the curtains in the room are drawn
   wreath: { emoji: '🎄' } as IconDef, // from door 12; the wreath on the door is drawn, set `src` to use an image
