@@ -22,6 +22,7 @@ export type Door = DoorEffects &
   | { day: number; type: 'curtains' } // door 19: open the curtains
   | { day: number; type: 'garland' } // door 21: hang the garland
   | { day: number; type: 'treeGarland' } // door 15: wind tinsel around the tree
+  | { day: number; type: 'cookies' } // door 9: bake cookies for Santa
   | { day: number; type: 'cat' } // door 16: a cat eats the fish
   | { day: number; type: 'video'; youtubeId: string; title?: string } // the id is the part after v= in the YouTube link
   )

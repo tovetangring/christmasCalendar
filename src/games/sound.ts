@@ -107,6 +107,7 @@ export const sounds = {
     tone(150, 0.12, { type: 'square', volume: 0.14, slideTo: 60 })
     tone(900, 0.04, { type: 'triangle', volume: 0.05 })
   },
+  cut: () => tone(520, 0.07, { type: 'triangle', volume: 0.06, slideTo: 780 }),
   miss: () => tone(420, 0.12, { volume: 0.05, slideTo: 250 }),
   // The creak and crash of a falling tree.
   timber: () => {

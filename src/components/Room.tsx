@@ -5,6 +5,7 @@ import { Armchair, FloorFish, RoomCat } from './RoomPets'
 import { Wreath } from './Wreath'
 import { CurtainCloth, RoomCurtains } from './Curtains'
 import { Garland } from './Garland'
+import { CookiePlate } from './Cookies'
 import { ICONS } from '../lib/icons'
 import { DECORATIONS } from '../games/tree/decorations'
 import type { Items } from '../lib/items'
@@ -153,6 +154,8 @@ export function Room({ tree, showProgress, items, candles, onUnwrap }: RoomProps
         <rect x="32" y="138" width="116" height="4" fill="#efe6d2" />
         <rect x="14" y="216" width="152" height="10" rx="2" fill="#d8cdb5" />
         <g data-slot="curtains">{curtains && <RoomCurtains />}</g>
+        {/* the plate of cookies for Santa on the window sill (door 9) */}
+        <g data-slot="cookies" transform="translate(84 217)">{items.cookies && <CookiePlate />}</g>
 
         {/* Fireplace: mantel, stone, fire and the four Advent candles */}
         <rect x="236" y="166" width="176" height="164" fill="url(#room-bricks)" />
