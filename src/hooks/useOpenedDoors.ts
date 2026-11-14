@@ -1,19 +1,17 @@
-import { useCallback, useEffect, useState } from 'react'
-import { readJSON, writeString } from '../lib/storage'
+import { useCallback } from 'react'
+import { createStore, parseJSON } from '../lib/store'
 
-const isNumberArray = (v: unknown): v is number[] => Array.isArray(v) && v.every((n) => typeof n === 'number')
+// Which doors have been opened in a calendar (a list of day numbers).
+const store = createStore<number[]>('opened', (raw) => {
+  const v = parseJSON(raw)
+  return Array.isArray(v) ? v.filter((n): n is number => typeof n === 'number') : []
+})
 
 export function useOpenedDoors(calendarId: string) {
-  const key = `opened:${calendarId}`
-  const [opened, setOpened] = useState<number[]>(() => readJSON(key, isNumberArray, []))
-
-  useEffect(() => {
-    writeString(key, JSON.stringify(opened))
-  }, [key, opened])
-
-  const markOpened = useCallback((day: number) => {
-    setOpened((prev) => (prev.includes(day) ? prev : [...prev, day]))
-  }, [])
-
+  const opened = store.use(calendarId)
+  const markOpened = useCallback(
+    (day: number) => store.update(calendarId, (days) => (days.includes(day) ? days : [...days, day])),
+    [calendarId],
+  )
   return { opened, markOpened }
 }
