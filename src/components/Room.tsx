@@ -8,6 +8,8 @@ import { Garland } from './Garland'
 import { CookiePlate } from './Cookies'
 import { Snowman } from './Snowman'
 import { RoomGramophone } from './Gramophone'
+import { GiftBox, PaperPatterns } from './WrappedGift'
+import type { GiftStyle } from '../lib/wrappedGift'
 import { ICONS } from '../lib/icons'
 import { DECORATIONS } from '../games/tree/decorations'
 import type { Items } from '../lib/items'
@@ -41,10 +43,11 @@ type RoomProps = {
   showProgress: boolean
   items: Items // what is in the room (see src/lib/items.ts); until `unwrapped` it is wrapped like a present
   candles: boolean[] // which of the four Advent candles are lit
+  wrappedGift: GiftStyle | null // the present you wrapped in door 22
   onUnwrap: () => void
 }
 
-export function Room({ tree, showProgress, items, candles, onUnwrap }: RoomProps) {
+export function Room({ tree, showProgress, items, candles, wrappedGift, onUnwrap }: RoomProps) {
   const { rug, treeStand, fish, cat, armchair, wreath, curtains, garland, scissors: hasScissors } = items
   const wrapped = !items.unwrapped
   const [cutting, setCutting] = useState(false) // the cut animation is playing
@@ -119,6 +122,7 @@ export function Room({ tree, showProgress, items, candles, onUnwrap }: RoomProps
             <rect x="280" width="280" height="520" />
           </clipPath>
           <CurtainCloth id="room-curtain" />
+          <PaperPatterns prefix="room-gift" size={9} />
           <clipPath id="room-pane">
             <rect x="32" y="72" width="116" height="136" />
           </clipPath>
@@ -240,6 +244,10 @@ export function Room({ tree, showProgress, items, candles, onUnwrap }: RoomProps
         </g>
         <g className="tree-pop">
           {tree.chopped && <ChristmasTree tree={tree} garland={items.treeGarland} x={28} y={212} width={196} height={274} />}
+        </g>
+        {/* the present you wrapped yourself (door 22), in front of the tree */}
+        <g data-slot="wrapped-gift" transform="translate(222 492)">
+          {wrappedGift && <GiftBox prefix="room-gift" paper={wrappedGift.paper} ribbon={wrappedGift.ribbon} w={34} h={27} />}
         </g>
         {caption && (
           <text x="410" y="508" textAnchor="middle" fontSize="15" fontWeight="bold" fill="#f4d58d" stroke="#3a2210" strokeWidth="3" paintOrder="stroke">

@@ -7,6 +7,7 @@ import { TreeGarlandDoor } from '../components/doors/TreeGarlandDoor'
 import { CookieDoor } from '../components/doors/CookieDoor'
 import { SnowmanDoor } from '../components/doors/SnowmanDoor'
 import { BellsDoor } from '../components/doors/BellsDoor'
+import { GiftWrapDoor } from '../components/doors/GiftWrapDoor'
 import { MessageDoor } from '../components/doors/MessageDoor'
 import { QuoteDoor } from '../components/doors/QuoteDoor'
 import { VideoDoor } from '../components/doors/VideoDoor'
@@ -87,6 +88,7 @@ const DOOR_TYPES: ByType = {
   cookies: { hint: () => ({ emoji: '🍪', color: '#9a5a2a' }), render: (_, { calendarId }) => <CookieDoor calendarId={calendarId} /> },
   snowman: { hint: () => ({ emoji: '☃️', color: '#4a6fa0' }), render: (_, { calendarId }) => <SnowmanDoor calendarId={calendarId} /> },
   bells: { hint: () => ({ emoji: '🎶', color: '#6a4fa0' }), render: (_, { calendarId }) => <BellsDoor calendarId={calendarId} /> },
+  giftWrap: { hint: () => ({ emoji: '🎀', color: '#b3263f' }), render: (_, { calendarId }) => <GiftWrapDoor calendarId={calendarId} /> },
   cat: { hint: () => ({ emoji: '🐾', color: '#3a3a44' }), render: (_, { calendarId }) => <CatDoor calendarId={calendarId} /> },
   video: { hint: () => ({ emoji: '🎬', color: '#b3262e' }), wide: true, render: (door) => <VideoDoor door={door} /> },
 }

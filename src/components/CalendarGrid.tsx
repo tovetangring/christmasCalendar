@@ -5,6 +5,7 @@ import { useOpenedDoors } from '../hooks/useOpenedDoors'
 import { litCandles } from '../lib/advent'
 import { useTree } from '../lib/tree'
 import { giveItem, useItems } from '../lib/items'
+import { useWrappedGift } from '../lib/wrappedGift'
 import { useCandy } from '../lib/wallet'
 import { ICONS } from '../lib/icons'
 import { Icon } from './Icon'
@@ -21,6 +22,7 @@ export function CalendarGrid({ calendar }: { calendar: Calendar }) {
   const tree = useTree(calendar.id)
   const candy = useCandy(calendar.id)
   const items = useItems(calendar.id)
+  const wrappedGift = useWrappedGift(calendar.id)
   const [activeDay, setActiveDay] = useState<number | null>(null)
   // A game's highscore list is a surprise until its door has been opened.
   const openedGames = calendar.doors.flatMap((d) =>
@@ -55,6 +57,7 @@ export function CalendarGrid({ calendar }: { calendar: Calendar }) {
           tree={tree}
           showProgress={decorationsRevealed}
           items={items}
+          wrappedGift={wrappedGift}
           candles={litCandles(calendar.doors, opened)}
           onUnwrap={() => giveItem(calendar.id, 'unwrapped')}
         />

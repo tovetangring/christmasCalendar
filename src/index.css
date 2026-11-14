@@ -91,7 +91,7 @@ button { font: inherit; cursor: pointer; padding: 12px 18px; border-radius: 8px;
   .door:hover:not(:disabled) { transform: none; }
   .modal, .tree-pop, .tree.spin, .xmas-tree .glow, .xmas-tree .light, .wordle-tile,
   .room-flake, .candle-flame, .fire-flame, .fire-glow, .wrap-half, .wrap-bow, .wrap-scissors,
-  .petting .cat-eyes, .petting .cat-body, .cat-heart, .magic-spark, .wreath-glow-pulse, .garland-light, .garland-tip, .cookie-smoke circle, .snowball-off, .bell-swing, .music-note, .record-shine,
+  .petting .cat-eyes, .petting .cat-body, .cat-heart, .magic-spark, .wreath-glow-pulse, .garland-light, .garland-tip, .cookie-smoke circle, .snowball-off, .bell-swing, .music-note, .record-shine, .cat-walk, .cat-purring, .cat-treat, .wrap-folded,
   .axe.swing, .tree-shake, .wood-chip, .chop-popup { animation: none; }
   .tree-falling { transition: none; }
 }
@@ -205,8 +205,15 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 /* A verse (door 6): keep the line breaks */
 .quote blockquote.poem { white-space: pre-line; text-align: center; line-height: 1.8; font-size: 1.25rem; }
 
-/* Door 16 */
-.cat-door { text-align: center; margin: 8px 0 16px; }
+/* Door 16: lure in the cat and pet it */
+.cat-door { text-align: center; margin: 4px 0 8px; }
+.cat-stage { width: 360px; height: auto; border-radius: 8px; user-select: none; touch-action: none; overflow: visible; }
+.cat-stage.phase-lure { cursor: grab; }
+.cat-stage.phase-pet { cursor: pointer; }
+.cat-walk { animation: cat-walk 0.35s ease-in-out infinite alternate; }
+@keyframes cat-walk { from { transform: translateY(0) rotate(-2deg); } to { transform: translateY(-3px) rotate(2deg); } }
+.cat-purring { transform-box: fill-box; transform-origin: 50% 100%; animation: cat-purr 0.08s linear infinite alternate; }
+.cat-treat { transform-box: fill-box; }
 
 /* The cat in the room: click to pet it */
 .room-cat { cursor: pointer; }
@@ -313,3 +320,16 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 .bell-glow { animation: bell-glow 0.7s ease-out forwards; }
 @keyframes bell-glow { from { opacity: 0.35; } to { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .bell-glow { animation: none; opacity: 0; } }
+
+/* Door 22: wrap a present */
+.giftwrap-door { text-align: center; margin: 4px 0 8px; }
+.giftwrap-door > button + button { margin-left: 8px; }
+.giftwrap-stage { width: 330px; height: auto; border-radius: 8px; user-select: none; overflow: visible; }
+.giftwrap-choices { display: flex; justify-content: center; gap: 8px; margin-bottom: 10px; }
+.giftwrap-choices button { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; background: #2d4a3a; border: 1px solid var(--gold); }
+.giftwrap-choices svg { display: block; border-radius: 3px; }
+.ribbon-swatch { display: inline-block; width: 18px; height: 18px; border-radius: 4px; border: 2px solid; }
+.wrap-flap { cursor: pointer; transition: filter 0.15s; }
+.wrap-flap:hover, .wrap-flap:focus-visible { outline: none; filter: brightness(1.2) drop-shadow(0 0 4px #f4d58d); }
+.wrap-folded { transform-box: view-box; animation: wrap-fold 0.35s ease-out; }
+@keyframes wrap-fold { from { transform: var(--fold); } }
