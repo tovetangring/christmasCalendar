@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Icon } from '../../components/Icon'
 import { ICONS } from '../../lib/icons'
-import { giveRug } from '../../lib/items'
+import { giveItem } from '../../lib/items'
 import { readJSON, writeString } from '../../lib/storage'
 import { ignoreKey } from '../keys'
 import { ScreenKeyboard } from '../ScreenKeyboard'
@@ -55,7 +55,7 @@ export function WordleGame({ calendarId }: { calendarId: string }) {
   // Solving the Wordle gives the rug for the Christmas room. Done in an effect so that people who solved it
   // earlier (before it gave a rug) get it too when they open the door.
   useEffect(() => {
-    if (saved.solved) giveRug(calendarId)
+    if (saved.solved) giveItem(calendarId, 'rug')
   }, [saved.solved, calendarId])
 
   const lost = !saved.solved && saved.guesses.length >= TRIES

@@ -1,32 +1,37 @@
 import { useMemo, useSyncExternalStore } from 'react'
 import { readString, writeString } from './storage'
 
-// Things you get from doors and see/use on the home page. One set per calendar.
-// Door 1 gives the scissors (which cut open the wrapping around the Christmas room), door 2 (Wordle) the rug
-// and door 3 the tree stand; the rug and stand are drawn in the room.
-export type Items = { scissors: boolean; unwrapped: boolean; rug: boolean; treeStand: boolean; fish: boolean; cat: boolean; armchair: boolean; wreath: boolean; curtains: boolean }
+// Things you get from doors and see/use on the home page, one set per calendar, saved as true/false flags.
+// To add one: add its id to ITEMS, hand it out with giveItem(calendarId, 'id'), and draw it in the room.
+export const ITEMS = [
+  'scissors', // door 1: cuts open the wrapping around the room
+  'unwrapped', // the room has been cut open
+  'rug', // door 2 (Wordle)
+  'treeStand', // door 3
+  'fish', // door 5, until the cat eats it
+  'cat', // door 16
+  'armchair', // door 8 (the crossword)
+  'wreath', // door 12
+  'curtains', // door 19
+] as const
+
+export type ItemId = (typeof ITEMS)[number]
+export type Items = Record<ItemId, boolean>
 
 const EVENT = 'items-changed'
 const keyFor = (calendarId: string) => `items:${calendarId}`
 const readRaw = (calendarId: string) => readString(keyFor(calendarId)) ?? ''
 
+// Missing or broken flags count as false, so older saves keep working when new items are added.
 function parse(raw: string): Items {
+  let saved: Record<string, unknown> = {}
   try {
-    const v = JSON.parse(raw)
-    return { scissors: !!v?.scissors, unwrapped: !!v?.unwrapped, rug: !!v?.rug, treeStand: !!v?.treeStand, fish: !!v?.fish, cat: !!v?.cat, armchair: !!v?.armchair, wreath: !!v?.wreath, curtains: !!v?.curtains }
+    const value = JSON.parse(raw)
+    if (value && typeof value === 'object') saved = value
   } catch {
-    return {
-      scissors: false,
-      unwrapped: false,
-      rug: false,
-      treeStand: false,
-      fish: false,
-      cat: false,
-      armchair: false,
-      wreath: false,
-      curtains: false,
-    }
+    /* nothing saved yet, or junk: start empty */
   }
+  return Object.fromEntries(ITEMS.map((id) => [id, saved[id] === true])) as Items
 }
 
 function write(calendarId: string, items: Items) {
@@ -36,37 +41,10 @@ function write(calendarId: string, items: Items) {
 
 export const getItems = (calendarId: string) => parse(readRaw(calendarId))
 
-export function giveScissors(calendarId: string) {
+// Gives an item (does nothing if you already have it).
+export function giveItem(calendarId: string, id: ItemId) {
   const items = getItems(calendarId)
-  if (!items.scissors) write(calendarId, { ...items, scissors: true })
-}
-
-export function giveRug(calendarId: string) {
-  const items = getItems(calendarId)
-  if (!items.rug) write(calendarId, { ...items, rug: true })
-}
-
-export function giveTreeStand(calendarId: string) {
-  const items = getItems(calendarId)
-  if (!items.treeStand) write(calendarId, { ...items, treeStand: true })
-}
-
-// Door 19: the curtains for the window.
-export function giveCurtains(calendarId: string) {
-  const items = getItems(calendarId)
-  if (!items.curtains) write(calendarId, { ...items, curtains: true })
-}
-
-// Door 12: the wreath for the front door.
-export function giveWreath(calendarId: string) {
-  const items = getItems(calendarId)
-  if (!items.wreath) write(calendarId, { ...items, wreath: true })
-}
-
-// Door 8 (the crossword): the armchair with the crossword on its seat.
-export function giveArmchair(calendarId: string) {
-  const items = getItems(calendarId)
-  if (!items.armchair) write(calendarId, { ...items, armchair: true })
+  if (!items[id]) write(calendarId, { ...items, [id]: true })
 }
 
 // Door 5 leaves a fish on the floor, once. Returns true if it was just given (not given again once the cat has come).
@@ -81,10 +59,6 @@ export function giveFish(calendarId: string): boolean {
 export function feedCat(calendarId: string) {
   const items = getItems(calendarId)
   if (items.fish) write(calendarId, { ...items, fish: false, cat: true })
-}
-
-export function unwrapRoom(calendarId: string) {
-  write(calendarId, { ...getItems(calendarId), unwrapped: true })
 }
 
 function subscribe(callback: () => void) {

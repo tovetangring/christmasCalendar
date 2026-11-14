@@ -4,7 +4,7 @@ import { doorHint } from '../doors/registry'
 import { useOpenedDoors } from '../hooks/useOpenedDoors'
 import { litCandles } from '../lib/advent'
 import { useTree } from '../lib/tree'
-import { unwrapRoom, useItems } from '../lib/items'
+import { giveItem, useItems } from '../lib/items'
 import { useCandy } from '../lib/wallet'
 import { ICONS } from '../lib/icons'
 import { Icon } from './Icon'
@@ -54,17 +54,9 @@ export function CalendarGrid({ calendar }: { calendar: Calendar }) {
         <Room
           tree={tree}
           showProgress={decorationsRevealed}
-          wrapped={!items.unwrapped}
-          hasScissors={items.scissors}
+          items={items}
           candles={litCandles(calendar.doors, opened)}
-          rug={items.rug}
-          fish={items.fish}
-          cat={items.cat}
-          armchair={items.armchair}
-          wreath={items.wreath}
-          curtains={items.curtains}
-          treeStand={items.treeStand}
-          onUnwrap={() => unwrapRoom(calendar.id)}
+          onUnwrap={() => giveItem(calendar.id, 'unwrapped')}
         />
 
         <section className="calendar-panel" aria-label="Kalenderluckor">

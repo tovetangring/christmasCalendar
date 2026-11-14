@@ -6,6 +6,7 @@ import { Wreath } from './Wreath'
 import { CurtainCloth, RoomCurtains } from './Curtains'
 import { ICONS } from '../lib/icons'
 import { DECORATIONS } from '../games/tree/decorations'
+import type { Items } from '../lib/items'
 import { isLit, type TreeState } from '../lib/tree'
 
 // The Christmas room: window, fireplace with four Advent candles, front door and a spot for the tree.
@@ -34,20 +35,14 @@ function WrapPaper() {
 type RoomProps = {
   tree: TreeState
   showProgress: boolean
-  wrapped: boolean // the room is still wrapped like a present
-  hasScissors: boolean // from door 1
+  items: Items // what is in the room (see src/lib/items.ts); until `unwrapped` it is wrapped like a present
   candles: boolean[] // which of the four Advent candles are lit
-  rug: boolean // from door 2 (Wordle)
-  treeStand: boolean // from door 3
-  fish: boolean // from door 5 (until the cat eats it)
-  cat: boolean // door 16
-  armchair: boolean // from door 8 (the crossword)
-  wreath: boolean // from door 12
-  curtains: boolean // from door 19
   onUnwrap: () => void
 }
 
-export function Room({ tree, showProgress, wrapped, hasScissors, candles, rug, treeStand, fish, cat, armchair, wreath, curtains, onUnwrap }: RoomProps) {
+export function Room({ tree, showProgress, items, candles, onUnwrap }: RoomProps) {
+  const { rug, treeStand, fish, cat, armchair, wreath, curtains, scissors: hasScissors } = items
+  const wrapped = !items.unwrapped
   const [cutting, setCutting] = useState(false) // the cut animation is playing
   const [needScissors, setNeedScissors] = useState(false)
   const timers = useRef<number[]>([])

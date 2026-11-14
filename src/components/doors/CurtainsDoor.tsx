@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type PointerEvent } from 'react'
 import { sounds } from '../../games/sound'
 import { useMagicSparks } from '../../hooks/useMagicSparks'
 import { ICONS } from '../../lib/icons'
-import { getItems, giveCurtains } from '../../lib/items'
+import { getItems, giveItem } from '../../lib/items'
 import { CurtainCloth, CurtainPanel } from '../Curtains'
 import { Icon } from '../Icon'
 import { MagicSparks } from '../MagicSparks'
@@ -40,7 +40,7 @@ export function CurtainsDoor({ calendarId }: { calendarId: string }) {
   function complete() {
     doneRef.current = true
     setDone(true)
-    giveCurtains(calendarId)
+    giveItem(calendarId, 'curtains')
     sounds.magic()
     for (let i = 0; i < 36; i++) {
       const a = Math.random() * Math.PI * 2

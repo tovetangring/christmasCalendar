@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type PointerEvent } from 'react'
 import { sounds } from '../../games/sound'
 import { ICONS } from '../../lib/icons'
-import { getItems, giveWreath } from '../../lib/items'
+import { getItems, giveItem } from '../../lib/items'
 import { Icon } from '../Icon'
 import { useMagicSparks } from '../../hooks/useMagicSparks'
 import { MagicSparks } from '../MagicSparks'
@@ -44,7 +44,7 @@ export function WreathDoor({ calendarId }: { calendarId: string }) {
   function complete() {
     doneRef.current = true
     setDone(true)
-    giveWreath(calendarId)
+    giveItem(calendarId, 'wreath')
     sounds.magic()
     for (let i = 0; i < 40; i++) spark(Math.random() * 360, 40 + Math.random() * 30, 60)
   }

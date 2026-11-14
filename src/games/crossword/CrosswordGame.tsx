@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { CandyReward } from '../../components/CandyReward'
 import { Icon } from '../../components/Icon'
 import { ICONS } from '../../lib/icons'
-import { giveArmchair } from '../../lib/items'
+import { giveItem } from '../../lib/items'
 import { readJSON, writeString } from '../../lib/storage'
 import { addCandy } from '../../lib/wallet'
 import { ignoreKey } from '../keys'
@@ -38,7 +38,7 @@ export function CrosswordGame({ calendarId }: { calendarId: string }) {
 
   // Solving the crossword puts an armchair with the crossword in the room (also for people who solved it before).
   useEffect(() => {
-    if (saved.solved) giveArmchair(calendarId)
+    if (saved.solved) giveItem(calendarId, 'armchair')
   }, [saved.solved, calendarId])
 
   const word = wordAt(sel.row, sel.col, sel.dir)
