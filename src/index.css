@@ -1,0 +1,261 @@
+:root {
+  --bg: #0f2a1d;
+  --card: #163d2a;
+  --red: #c0392b;
+  --gold: #f4d58d;
+  --text: #f6f1e7;
+  font-family: Georgia, 'Times New Roman', serif;
+  color: var(--text);
+  background: var(--bg);
+}
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 1280px; min-height: 100vh; background: radial-gradient(circle at top, #1d4d36, var(--bg)); }
+.page { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; padding: 24px 16px 48px; text-align: center; }
+.page.center { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+h1 { color: var(--gold); }
+form { display: flex; gap: 8px; justify-content: center; }
+input { padding: 12px 14px; font-size: 1rem; border-radius: 8px; border: 2px solid var(--gold); background: #fff; min-width: 0; flex: 1; max-width: 260px; }
+button { font: inherit; cursor: pointer; padding: 12px 18px; border-radius: 8px; border: none; background: var(--red); color: #fff; }
+.error { color: #ffb3a7; }
+.hint { color: var(--gold); font-size: 0.85rem; }
+.grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+.door { aspect-ratio: 1; font-size: 1.3rem; padding: 0; background: var(--red); border: 2px solid var(--gold); transition: transform 0.2s, background 0.2s; }
+.door:hover:not(:disabled) { transform: rotateY(12deg) scale(1.05); }
+.door.open { background: var(--card); color: var(--gold); }
+.door:disabled { background: #3a4a42; border-color: #5a6a62; cursor: not-allowed; opacity: 0.7; font-size: 0.95rem; }
+.backdrop { position: fixed; z-index: 10; inset: 0; background: rgba(0, 0, 0, 0.65); display: flex; overflow-y: auto; padding: 16px; }
+.modal { background: var(--card); border: 2px solid var(--gold); border-radius: 12px; padding: 24px; max-width: 460px; width: 100%; margin: auto; animation: pop 0.25s ease; }
+.modal:focus { outline: none; }
+@keyframes pop { from { transform: scale(0.8) rotateX(40deg); opacity: 0; } }
+.quote { margin: 16px 0 24px; }
+.quote blockquote { margin: 0 0 12px; font-size: 1.3rem; font-style: italic; line-height: 1.4; }
+.quote figcaption { color: var(--gold); }
+.back { color: var(--gold); }
+.page.wide-page { max-width: 1320px; }
+.leaderboard ol { margin: 0; padding-left: 22px; }
+.leaderboard li { padding: 3px 0; }
+.leaderboard li span { display: inline-block; max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: bottom; }
+.leaderboard li strong { float: right; color: var(--gold); }
+.modal.wide { max-width: 540px; }
+.game-canvas { width: 100%; aspect-ratio: 480 / 320; border-radius: 8px; display: block; margin: 12px 0; }
+.gameover { margin-bottom: 16px; display: flex; flex-direction: column; gap: 10px; align-items: center; }
+.gameover p { margin: 0; }
+
+/* Ambient extras */
+.snow { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+.santa { position: fixed; left: 0; z-index: 5; background: none; padding: 0; line-height: 0; cursor: pointer; }
+.santa img { display: block; width: 150px; height: auto; pointer-events: none; }
+.santa.to-right { animation: fly-right 10s linear forwards; }
+.santa.to-left { animation: fly-left 10s linear forwards; }
+@keyframes fly-right { from { transform: translateX(-120px); } to { transform: translateX(100vw); } }
+@keyframes fly-left { from { transform: translateX(100vw); } to { transform: translateX(-120px); } }
+.pop { position: fixed; z-index: 6; pointer-events: none; transform: translate(-50%, -50%); }
+.pop.gift { font-size: 2rem; animation: drop 1.2s ease-in forwards; }
+@keyframes drop { to { transform: translate(-50%, 70vh) rotate(40deg); opacity: 0; } }
+.pop.shout { font-weight: bold; color: var(--gold); font-size: 1.3rem; text-shadow: 0 1px 4px #000; white-space: nowrap; animation: shout 1.6s ease-out forwards; }
+@keyframes shout { to { transform: translate(-50%, -80px); opacity: 0; } }
+.penguin-corner { position: fixed; right: 12px; bottom: 8px; z-index: 4; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.penguin-corner button { position: relative; background: none; padding: 0; font-size: 2.4rem; line-height: 1; }
+.penguin-corner .wave { position: absolute; left: -14px; top: -6px; font-size: 1.3rem; transform-origin: 70% 80%; animation: wave 1.2s ease-in-out infinite; }
+@keyframes wave { 0%, 100% { transform: rotate(-15deg); } 50% { transform: rotate(25deg); } }
+.penguin-corner .hop { animation: hop 0.5s ease-out; }
+@keyframes hop { 40% { transform: translateY(-24px) rotate(-10deg); } }
+.bubble { background: #fff; color: #222; padding: 6px 10px; border-radius: 12px; font-size: 0.85rem; animation: bubble 2.5s ease-out forwards; }
+@keyframes bubble { 0%, 80% { opacity: 1; } 100% { opacity: 0; } }
+.tree { display: inline-block; cursor: pointer; }
+.tree.spin { animation: spin 0.8s ease-in-out; }
+@keyframes spin { to { transform: rotate(360deg) scale(1.4); } }
+
+/* Christmas tree on the calendar page */
+@keyframes grow-in { from { transform: scale(0.2); opacity: 0; } }
+.xmas-tree { overflow: visible; }
+.xmas-tree .glow { animation: glow 3s ease-in-out infinite; }
+@keyframes glow { 50% { opacity: 0.6; } }
+.xmas-tree .light { filter: drop-shadow(0 0 4px currentColor); animation: twinkle 1.2s ease-in-out infinite; }
+@keyframes twinkle { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+.game-status { min-height: 3em; margin: 0 0 8px; }
+.collected { font-size: 1.6rem; letter-spacing: 6px; margin: 4px 0; }
+
+/* Game doors hint at their content */
+.door { position: relative; overflow: hidden; background: var(--door-bg, var(--red)); }
+.door.open { background: var(--card); }
+.door:disabled { background: #3a4a42; }
+.door-hint { position: absolute; inset: 0; display: grid; place-items: center; font-size: 2.2rem; opacity: 0.5; pointer-events: none; }
+.door.open .door-hint { opacity: 0.3; }
+.door:disabled .door-hint { opacity: 0.3; }
+.door-num { position: relative; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6); }
+
+@media (prefers-reduced-motion: reduce) {
+  .door { transition: none; }
+  .door:hover:not(:disabled) { transform: none; }
+  .modal, .tree-pop, .tree.spin, .xmas-tree .glow, .xmas-tree .light, .wordle-tile,
+  .room-flake, .candle-flame, .fire-flame, .fire-glow, .wrap-half, .wrap-bow, .wrap-scissors,
+  .petting .cat-eyes, .petting .cat-body, .cat-heart, .magic-spark, .wreath-glow-pulse,
+  .axe.swing, .tree-shake, .wood-chip, .chop-popup { animation: none; }
+  .tree-falling { transition: none; }
+}
+.game-controls { display: flex; gap: 8px; justify-content: center; margin-bottom: 8px; }
+.game-controls button { padding: 6px 12px; font-size: 0.9rem; background: #2d4a3a; border: 1px solid var(--gold); }
+
+/* Candy sack and wheel */
+.icon { display: inline-block; vertical-align: middle; object-fit: contain; }
+.sack { display: inline-flex; align-items: center; gap: 6px; margin: 0 auto 12px; padding: 4px 14px; background: var(--card); border: 2px solid var(--gold); border-radius: 999px; font-size: 1.2rem; }
+.sack strong { color: var(--gold); }
+.candy-reward { margin: 0; }
+.wheel-game { text-align: center; }
+.wheel-wrap { position: relative; width: 260px; margin: 18px auto 12px; }
+.wheel-disc { transition-property: transform; transition-timing-function: cubic-bezier(0.17, 0.67, 0.12, 1); }
+.wheel-disc svg { display: block; width: 100%; height: auto; }
+.wheel-pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); z-index: 1; width: 0; height: 0; border-left: 13px solid transparent; border-right: 13px solid transparent; border-top: 24px solid var(--gold); filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.5)); }
+.wheel-balance { margin: 8px 0; }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Candy-cane frame around the video on door 14 */
+.candy-frame { margin: 12px 0 16px; padding: 14px; border-radius: 16px; background: repeating-linear-gradient(135deg, #fff 0 14px, #d6232f 14px 28px); box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45), inset 0 3px 4px rgba(255, 255, 255, 0.7), inset 0 -3px 5px rgba(0, 0, 0, 0.3); }
+.candy-frame .video { position: relative; aspect-ratio: 16 / 9; background: #000; border: 3px solid #fff; border-radius: 6px; overflow: hidden; }
+.candy-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.candy-frame + .hint a { color: var(--gold); }
+
+/* Wordle (door 2) */
+.wordle { text-align: center; }
+.wordle-grid { display: grid; gap: 5px; width: 300px; margin: 12px auto; }
+.wordle-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; }
+.wordle-tile { aspect-ratio: 1; display: grid; place-items: center; border: 2px solid #4a6b58; font-size: 1.7rem; font-weight: bold; color: #fff; }
+.wordle-tile.filled { border-color: #8aa597; animation: tile-pop 0.1s ease-out; }
+.wordle-tile.correct { background: #538d4e; border-color: #538d4e; }
+.wordle-tile.present { background: #b59f3b; border-color: #b59f3b; }
+.wordle-tile.absent { background: #3a3a3c; border-color: #3a3a3c; }
+.wordle-tile.reveal { animation: tile-flip 0.5s ease-out both; animation-delay: calc(var(--i) * 0.18s); }
+@keyframes tile-pop { 50% { transform: scale(1.12); } }
+@keyframes tile-flip { from { transform: rotateX(90deg); } }
+.screen-keyboard { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.screen-keys { display: flex; gap: 4px; justify-content: center; }
+.screen-keys button { flex: 1; max-width: 40px; padding: 10px 0; font-size: 0.9rem; background: #4a5d54; }
+.screen-keys button.wide { flex: 1.6; max-width: 64px; font-size: 0.75rem; }
+.screen-keys button.correct { background: #538d4e; }
+.screen-keys button.present { background: #b59f3b; }
+.screen-keys button.absent { background: #2b2b2d; color: #888; }
+
+/* Crossword (door 8) */
+.crossword { text-align: center; }
+.cx-grid { --cell: 40px; display: grid; gap: 2px; justify-content: center; margin: 12px auto; }
+.cx-row { display: grid; grid-template-columns: repeat(var(--cols), var(--cell)); gap: 2px; }
+.cx-blank { width: var(--cell); height: var(--cell); }
+.cx-cell { position: relative; width: var(--cell); height: var(--cell); display: grid; place-items: center; background: #fff; color: #14231b; font-weight: bold; font-size: calc(var(--cell) * 0.55); border-radius: 3px; cursor: pointer; user-select: none; }
+.cx-cell.in-word { background: #fff0b8; }
+.cx-cell.active { background: #ffd54a; outline: 3px solid var(--red); outline-offset: -2px; }
+.cx-cell.wrong { background: #ffb3a7; color: #7a1010; }
+.cx-cell.solved { background: #bfe8c4; cursor: default; }
+.cx-num { position: absolute; top: 1px; left: 3px; font-size: 0.55rem; font-weight: normal; line-height: 1; }
+.cx-clues { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; text-align: left; font-size: 0.85rem; }
+.cx-clues h3 { margin: 0 0 4px; color: var(--gold); font-size: 0.95rem; }
+.cx-clues ul { margin: 0; padding: 0; list-style: none; }
+.cx-clues .clue { display: block; width: 100%; padding: 4px 6px; margin-bottom: 2px; text-align: left; background: transparent; color: var(--text); border-radius: 4px; font-size: inherit; }
+.cx-clues .clue.active { background: rgba(244, 213, 141, 0.25); }
+
+/* Home page: fixed zones (room + highscores on the left, calendar doors on the right) */
+.home-layout { display: grid; grid-template-columns: 560px minmax(0, 1fr); gap: 24px 32px; align-items: stretch; margin-top: 8px; }
+.calendar-panel { grid-column: 2; grid-row: 1; display: flex; background: var(--card); border: 2px solid var(--gold); border-radius: 14px; padding: 18px; }
+.calendar-panel .grid { flex: 1; grid-template-rows: repeat(4, 1fr); }
+.calendar-panel .door { aspect-ratio: auto; }
+.room-panel { grid-column: 1; grid-row: 1; background: var(--card); border: 2px solid var(--gold); border-radius: 14px; padding: 10px; }
+.room { display: block; width: 100%; height: auto; border-radius: 8px; }
+.boards-panel { grid-column: 1; grid-row: 2; background: var(--card); border: 2px solid var(--gold); border-radius: 14px; padding: 12px 18px 16px; text-align: left; }
+.boards-panel h2 { margin: 0 0 8px; color: var(--gold); font-size: 1.15rem; text-align: center; }
+.boards-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; }
+.leaderboard h3 { margin: 4px 0 6px; color: var(--gold); font-size: 1rem; text-align: center; }
+
+/* The Christmas room scene */
+.room-flake { animation: room-snow 4.5s linear infinite; }
+@keyframes room-snow { from { transform: translateY(0); } to { transform: translateY(136px); } }
+.candle-flame { transform-box: fill-box; transform-origin: 50% 100%; animation: candle-flicker 1s ease-in-out infinite alternate; }
+@keyframes candle-flicker { from { transform: scale(1, 0.92); } to { transform: scale(1.1, 1.08); } }
+.fire-flame { transform-box: fill-box; transform-origin: 50% 100%; animation: fire-flicker 0.7s ease-in-out infinite alternate; }
+@keyframes fire-flicker { from { transform: scale(1, 0.88) skewX(-3deg); } to { transform: scale(1.06, 1.08) skewX(3deg); } }
+.fire-glow { animation: glow-pulse 2.2s ease-in-out infinite alternate; }
+@keyframes glow-pulse { from { opacity: 0.7; } to { opacity: 1; } }
+.tree-pop { transform-box: fill-box; transform-origin: 50% 100%; animation: grow-in 0.8s ease-out; }
+
+/* Door 1: Santa's letter, and the room wrapped like a present */
+.pockets { display: flex; justify-content: center; gap: 12px; }
+.message-door { text-align: center; margin: 8px 0 16px; }
+.message-santa { width: 170px; height: auto; }
+.message-text { margin: 12px 0; font-size: 1.15rem; line-height: 1.5; font-style: italic; }
+.message-gift { margin: 0; color: var(--gold); }
+.wrapping { cursor: pointer; }
+.wrapping:focus { outline: none; }
+.wrapping:focus-visible .wrap-tag rect { stroke: var(--red); stroke-width: 4; }
+.wrap-half, .wrap-bow { transform-box: fill-box; transform-origin: center; }
+.wrap-left.cut { animation: wrap-away-left 0.7s ease-in 0.8s forwards; }
+.wrap-right.cut { animation: wrap-away-right 0.7s ease-in 0.8s forwards; }
+.wrap-bow.cut { animation: wrap-bow-away 0.7s ease-out 0.8s forwards; }
+.wrap-scissors { transform-box: fill-box; transform-origin: center; animation: scissors-cut 0.8s linear forwards; }
+@keyframes wrap-away-left { to { transform: translateX(-140%) rotate(-10deg); opacity: 0; } }
+@keyframes wrap-away-right { to { transform: translateX(140%) rotate(10deg); opacity: 0; } }
+@keyframes wrap-bow-away { to { transform: translateY(-160%) rotate(25deg); opacity: 0; } }
+@keyframes scissors-cut { to { transform: translateY(440px); } }
+.pockets .sack { margin: 0 0 12px; }
+
+/* Door 3: the neighbour's note */
+.note-card { position: relative; margin: 18px 8px 14px; padding: 22px 20px 18px; background: #fff3c4; color: #3a2a12; border-radius: 3px; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.45); transform: rotate(-1.5deg); }
+.note-tape { position: absolute; top: -12px; left: 50%; width: 90px; height: 24px; margin-left: -45px; background: rgba(255, 255, 255, 0.55); border: 1px solid rgba(0, 0, 0, 0.12); transform: rotate(2deg); }
+.note-text { margin: 0; font-size: 1.1rem; line-height: 1.55; font-style: italic; text-align: left; }
+
+/* A verse (door 6): keep the line breaks */
+.quote blockquote.poem { white-space: pre-line; text-align: center; line-height: 1.8; font-size: 1.25rem; }
+
+/* Door 16 */
+.cat-door { text-align: center; margin: 8px 0 16px; }
+
+/* The cat in the room: click to pet it */
+.room-cat { cursor: pointer; }
+.room-cat:focus { outline: none; }
+.room-cat:focus-visible .cat-body { filter: drop-shadow(0 0 4px #f4d58d); }
+.cat-eyes, .cat-body { transform-box: fill-box; transform-origin: 50% 100%; }
+.cat-eyes { transform-origin: 50% 50%; }
+.petting .cat-eyes { animation: cat-blink 1.7s ease-in-out; }
+.petting .cat-body { animation: cat-purr 0.08s linear infinite alternate; }
+.cat-heart { transform-box: fill-box; transform-origin: 50% 100%; animation: cat-heart 1.7s ease-out forwards; }
+@keyframes cat-blink { 0%, 20%, 40%, 100% { transform: scaleY(1); } 10%, 30% { transform: scaleY(0.08); } 55%, 90% { transform: scaleY(0.2); } }
+@keyframes cat-purr { from { transform: scale(1, 1); } to { transform: scale(1.015, 0.985); } }
+@keyframes cat-heart { 0% { transform: translateY(0) scale(0.4); opacity: 0; } 15% { transform: translateY(-6px) scale(1); opacity: 1; } 100% { transform: translateY(-46px) scale(1.1); opacity: 0; } }
+
+/* Door 12: the wreath and its Christmas magic */
+.wreath-door { text-align: center; margin: 4px 0 8px; }
+.wreath-stage { width: 280px; height: 280px; cursor: grab; user-select: none; touch-action: none; overflow: visible; }
+.wreath-stage:active { cursor: grabbing; }
+.wreath-spinner { transform-box: view-box; transform-origin: 0 0; }
+.wreath-glow-pulse { animation: wreath-pulse 1.6s ease-in-out infinite alternate; }
+.magic-spark { transform-box: fill-box; transform-origin: center; animation: magic-spark 0.95s ease-out forwards; }
+@keyframes magic-spark {
+  from { opacity: 1; transform: translate(0, 0) scale(var(--s)) rotate(0deg); }
+  to { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.2) rotate(140deg); }
+}
+@keyframes wreath-pulse { from { opacity: 0.55; } to { opacity: 0.95; } }
+
+/* Door 4: the forest where you chop your tree */
+.chop-forest { display: block; width: 100%; height: auto; margin: 12px 0; border-radius: 8px; user-select: none; }
+.forest-text { font: bold 20px Georgia, serif; fill: #fff; stroke: rgba(11, 30, 60, 0.85); stroke-width: 4px; paint-order: stroke; }
+.forest-text.small { font-size: 14px; }
+.forest-flake { animation-name: forest-snow; }
+@keyframes forest-snow { from { transform: translateY(0); } to { transform: translateY(330px); } }
+.forest-tree.choosable { cursor: pointer; transition: filter 0.15s; }
+.forest-tree.choosable:hover, .forest-tree.choosable:focus-visible { outline: none; filter: brightness(1.25) drop-shadow(0 0 6px #f4d58d); }
+.forest-tree.faded { opacity: 0.35; transition: opacity 0.4s; }
+.axe { transform-box: fill-box; transform-origin: 0% 100%; transform: rotate(-40deg); }
+.axe.swing { animation: axe-swing 0.28s ease-in; }
+@keyframes axe-swing { 0% { transform: rotate(-40deg); } 60% { transform: rotate(6deg); } 100% { transform: rotate(-40deg); } }
+.tree-shake { transform-box: view-box; animation: tree-shake 0.3s ease-out; }
+@keyframes tree-shake { 25% { transform: rotate(1.5deg); } 60% { transform: rotate(-1deg); } }
+.tree-falling { transform-box: view-box; transition: transform 1.2s cubic-bezier(0.55, 0, 0.9, 0.55); }
+.wood-chip { transform-box: fill-box; transform-origin: center; animation: wood-chip 0.6s ease-out forwards; }
+@keyframes wood-chip { to { transform: translate(var(--dx), var(--dy)) rotate(var(--r)); opacity: 0; } }
+.chop-popup { animation: chop-popup 0.9s ease-out forwards; }
+.chop-popup.good { fill: #f4d58d; }
+.chop-popup.bad { fill: #ffb3a7; }
+@keyframes chop-popup { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-24px); } }
+
+/* Door 19: open the Christmas curtains */
+.curtains-door { text-align: center; margin: 4px 0 8px; }
+.curtains-stage { width: 330px; height: auto; border-radius: 8px; cursor: grab; user-select: none; touch-action: none; overflow: visible; }
+.curtains-stage:active { cursor: grabbing; }

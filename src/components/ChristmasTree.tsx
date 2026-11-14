@@ -1,0 +1,68 @@
+import { isLit, type TreeState } from '../lib/tree'
+import { ICONS } from '../lib/icons'
+import { SvgIcon } from './Icon'
+
+// Twinkling lights, placed by hand inside the three tiers of the tree.
+const LIGHTS: [number, number][] = [
+  [92, 58], [110, 74], [78, 90], [118, 100], [70, 118], [130, 132], [52, 145], [146, 152],
+  [100, 138], [48, 190], [70, 175], [115, 170], [150, 195], [90, 205], [132, 208], [60, 208],
+]
+const LIGHT_COLORS = ['#ffd54a', '#ff5e5e', '#5ec8ff', '#7dff8a']
+
+// The tree as an <svg> (nested inside the room scene), positioned by x/y/width/height.
+export function ChristmasTree({ tree, x, y, width, height }: { tree: TreeState; x: number; y: number; width: number; height: number }) {
+  const has = (id: string) => tree.decorations.some((d) => d === id)
+  const lit = isLit(tree)
+
+  return (
+      <svg x={x} y={y} width={width} height={height} viewBox="0 0 200 280" className={`xmas-tree ${lit ? 'lit' : ''}`} role="img" aria-label="Din julgran">
+        <defs>
+          <radialGradient id="ball-shine" cx="35%" cy="35%" r="70%">
+            <stop offset="0" stopColor="#ff9c9c" />
+            <stop offset="1" stopColor="#b3121c" />
+          </radialGradient>
+          <radialGradient id="tree-glow">
+            <stop offset="0" stopColor="#ffe9a8" stopOpacity="0.55" />
+            <stop offset="1" stopColor="#ffe9a8" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+        <rect x="90" y="210" width="20" height="42" fill="#6b4423" />
+        <g transform="translate(0 10)">
+          {lit && <circle className="glow" cx="100" cy="140" r="135" fill="url(#tree-glow)" />}
+          <polygon points="100,110 180,215 20,215" fill="#1f7a3d" />
+          <polygon points="100,70 165,150 35,150" fill="#26924a" />
+          <polygon points="100,30 150,100 50,100" fill="#2fa859" />
+          {lit &&
+            LIGHTS.map(([x, y], i) => {
+              const color = LIGHT_COLORS[i % LIGHT_COLORS.length]
+              return (
+                <circle
+                  key={i}
+                  className="light"
+                  cx={x}
+                  cy={y}
+                  r="3.5"
+                  style={{ color, fill: 'currentColor', animationDelay: `${(i % 5) * 0.25}s` }}
+                />
+              )
+            })}
+          {has('star') && <text x="100" y="26" fontSize="34" textAnchor="middle" dominantBaseline="central">⭐</text>}
+          {has('ball') && <circle cx="78" cy="132" r="10" fill="url(#ball-shine)" />}
+          {has('bell') && <text x="128" y="178" fontSize="22" textAnchor="middle" dominantBaseline="central">🔔</text>}
+          {has('stocking') && <text x="62" y="192" fontSize="22" textAnchor="middle" dominantBaseline="central">🧦</text>}
+          {has('cookie') && <text x="112" y="112" fontSize="22" textAnchor="middle" dominantBaseline="central">🍪</text>}
+        </g>
+        {tree.packages > 0 && (
+          <g>
+            <SvgIcon icon={ICONS.pack} x={52} y={254} size={30} />
+            {tree.packages > 1 && (
+              <text x="70" y="270" fontSize="14" fontWeight="bold" fill="#fff" stroke="#0f2a1d" strokeWidth="3" paintOrder="stroke">
+                ×{tree.packages}
+              </text>
+            )}
+          </g>
+        )}
+        {has('gift') && <text x="146" y="258" fontSize="30" textAnchor="middle" dominantBaseline="central">🎁</text>}
+      </svg>
+  )
+}
