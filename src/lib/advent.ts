@@ -1,8 +1,7 @@
-// The four Advent candles on the mantelpiece in the Christmas room.
-// Each one is lit by something: 'start' = burning from the beginning, a number = that door has been opened,
-// undefined = not hooked up yet (stays unlit until a door is assigned to it).
-export const CANDLE_LIT_BY: (number | 'start' | undefined)[] = ['start', 6, 13, 20]
+import type { Door } from '../types'
 
-export function litCandles(openedDays: number[]): boolean[] {
-  return CANDLE_LIT_BY.map((by) => by === 'start' || (by !== undefined && openedDays.includes(by)))
+// The four Advent candles on the mantelpiece in the Christmas room. The first burns from the start;
+// the others are lit by opening the door that has `lightsCandle: 2 | 3 | 4` (see src/calendars/index.ts).
+export function litCandles(doors: Door[], openedDays: number[]): boolean[] {
+  return [1, 2, 3, 4].map((n) => n === 1 || doors.some((d) => d.lightsCandle === n && openedDays.includes(d.day)))
 }

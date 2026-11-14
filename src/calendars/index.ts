@@ -22,12 +22,14 @@ const sharedDoors: Door[] = [
   {
     day: 6,
     type: 'quote',
+    lightsCandle: 2,
     poem: true,
     text: 'När andra ljuset brinner\när snart lucia här\nhon bjuder oss på kaffe\noch bud om julen bär',
   },
   {
     day: 13,
     type: 'quote',
+    lightsCandle: 3,
     poem: true,
     text: 'När tredje ljuset brinner\nvi juleklappar syr\noch mamma bakar kakor\noch har ett fasligt styr',
   },
@@ -38,11 +40,12 @@ const sharedDoors: Door[] = [
   {
     day: 20,
     type: 'quote',
+    lightsCandle: 4,
     poem: true,
     text: 'När fjärde ljuset brinner\nvi hämtar julegran\noch alla barnen räknar\ndan före dan före dopparedan',
   },
   { day: 4, type: 'game', game: 'chop' },
-  { day: 10, type: 'game', game: 'claw' },
+  { day: 10, type: 'game', game: 'claw', revealsDecorations: true },
   { day: 23, type: 'game', game: 'star' },
   { day: 17, type: 'game', game: 'wheel' },
   { day: 2, type: 'game', game: 'wordle' },

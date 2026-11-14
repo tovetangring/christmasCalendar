@@ -7,7 +7,14 @@ export function isScoreGame(game: GameId): game is ScoreGameId {
   return (SCORE_GAMES as readonly string[]).includes(game)
 }
 
-export type Door =
+// What opening a door does on the home page, besides showing its content.
+type DoorEffects = {
+  lightsCandle?: 2 | 3 | 4 // lights that Advent candle (the first one burns from the start)
+  revealsDecorations?: boolean // shows the tree's decoration progress
+}
+
+export type Door = DoorEffects &
+  (
   | { day: number; type: 'quote'; text: string; author?: string; poem?: boolean } // poem: keep line breaks, no quote marks
   | { day: number; type: 'game'; game: GameId }
   | { day: number; type: 'message'; text: string; from: 'santa' | 'neighbour'; gives: 'scissors' | 'treeStand' } // a note that hands over an item (doors 1 and 3)
@@ -15,6 +22,7 @@ export type Door =
   | { day: number; type: 'curtains' } // door 19: open the curtains
   | { day: number; type: 'cat' } // door 16: a cat eats the fish
   | { day: number; type: 'video'; youtubeId: string; title?: string } // the id is the part after v= in the YouTube link
+  )
 // Later: | { day: number; type: 'image'; src: string }
 
 export type Calendar = {

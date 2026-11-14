@@ -1,5 +1,6 @@
 import { useState, type CSSProperties } from 'react'
-import { isScoreGame, type Calendar, type GameId } from '../types'
+import { isScoreGame, type Calendar } from '../types'
+import { doorHint } from '../doors/registry'
 import { useOpenedDoors } from '../hooks/useOpenedDoors'
 import { litCandles } from '../lib/advent'
 import { useTree } from '../lib/tree'
@@ -11,27 +12,6 @@ import { isUnlocked, isDebug } from '../lib/unlock'
 import { DoorModal } from './DoorModal'
 import { Leaderboard } from './Leaderboard'
 import { Room } from './Room'
-
-// A faint emoji and door colour hint at what is behind each game door.
-const GAME_HINTS: Record<GameId, { emoji: string; color: string }> = {
-  chop: { emoji: '🎄', color: '#2e7d46' },
-  penguin: { emoji: '🐧', color: '#2f6fa8' },
-  claw: { emoji: '🕹️', color: '#7b4bb0' },
-  snowball: { emoji: '⛄', color: '#3f8f9c' },
-  star: { emoji: '⭐', color: '#a8801f' },
-  wheel: { emoji: '🎡', color: '#b8456f' },
-  wordle: { emoji: '🔤', color: '#3f7a46' },
-  crossword: { emoji: '🧩', color: '#8a4f2a' },
-}
-const VIDEO_HINT = { emoji: '🎬', color: '#b3262e' }
-const POEM_HINT = { emoji: '🕯️', color: '#8a6a2a' }
-const CAT_HINT = { emoji: '🐾', color: '#3a3a44' }
-const WREATH_HINT = { emoji: '🌿', color: '#2f7a45' }
-const CURTAINS_HINT = { emoji: '🪟', color: '#9c2a35' }
-const MESSAGE_HINTS = {
-  santa: { emoji: '💌', color: '#a8322d' },
-  neighbour: { emoji: '📝', color: '#8a7a3d' },
-}
 
 // The home page has fixed zones, so nothing jumps around when the tree or a highscore list appears:
 // top row = the Christmas room (with the tree) and the calendar doors in equally tall frames;
@@ -47,7 +27,7 @@ export function CalendarGrid({ calendar }: { calendar: Calendar }) {
     d.type === 'game' && isScoreGame(d.game) && opened.includes(d.day) ? [d.game] : [],
   )
   // Don't reveal that the tree gets decorated until the decoration game has been opened.
-  const decorationsRevealed = calendar.doors.some((d) => d.type === 'game' && d.game === 'claw' && opened.includes(d.day))
+  const decorationsRevealed = calendar.doors.some((d) => d.revealsDecorations && opened.includes(d.day))
   const active = calendar.doors.find((d) => d.day === activeDay)
 
   return (
@@ -76,7 +56,7 @@ export function CalendarGrid({ calendar }: { calendar: Calendar }) {
           showProgress={decorationsRevealed}
           wrapped={!items.unwrapped}
           hasScissors={items.scissors}
-          candles={litCandles(opened)}
+          candles={litCandles(calendar.doors, opened)}
           rug={items.rug}
           fish={items.fish}
           cat={items.cat}
@@ -92,7 +72,7 @@ export function CalendarGrid({ calendar }: { calendar: Calendar }) {
             {calendar.doors.map((door) => {
               const unlocked = isUnlocked(door.day)
               const isOpen = opened.includes(door.day)
-              const hint = door.type === 'game' ? GAME_HINTS[door.game] : door.type === 'video' ? VIDEO_HINT : door.type === 'message' ? MESSAGE_HINTS[door.from] : door.type === 'quote' && door.poem ? POEM_HINT : door.type === 'cat' ? CAT_HINT : door.type === 'wreath' ? WREATH_HINT : door.type === 'curtains' ? CURTAINS_HINT : undefined
+              const hint = doorHint(door)
               return (
                 <button
                   key={door.day}
