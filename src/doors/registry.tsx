@@ -5,6 +5,7 @@ import { CurtainsDoor } from '../components/doors/CurtainsDoor'
 import { GarlandDoor } from '../components/doors/GarlandDoor'
 import { TreeGarlandDoor } from '../components/doors/TreeGarlandDoor'
 import { CookieDoor } from '../components/doors/CookieDoor'
+import { SnowmanDoor } from '../components/doors/SnowmanDoor'
 import { MessageDoor } from '../components/doors/MessageDoor'
 import { QuoteDoor } from '../components/doors/QuoteDoor'
 import { VideoDoor } from '../components/doors/VideoDoor'
@@ -83,6 +84,7 @@ const DOOR_TYPES: ByType = {
     render: (_, { calendarId }) => <TreeGarlandDoor calendarId={calendarId} />,
   },
   cookies: { hint: () => ({ emoji: '🍪', color: '#9a5a2a' }), render: (_, { calendarId }) => <CookieDoor calendarId={calendarId} /> },
+  snowman: { hint: () => ({ emoji: '☃️', color: '#4a6fa0' }), render: (_, { calendarId }) => <SnowmanDoor calendarId={calendarId} /> },
   cat: { hint: () => ({ emoji: '🐾', color: '#3a3a44' }), render: (_, { calendarId }) => <CatDoor calendarId={calendarId} /> },
   video: { hint: () => ({ emoji: '🎬', color: '#b3262e' }), wide: true, render: (door) => <VideoDoor door={door} /> },
 }

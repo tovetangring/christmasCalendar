@@ -6,6 +6,7 @@ import { Wreath } from './Wreath'
 import { CurtainCloth, RoomCurtains } from './Curtains'
 import { Garland } from './Garland'
 import { CookiePlate } from './Cookies'
+import { Snowman } from './Snowman'
 import { ICONS } from '../lib/icons'
 import { DECORATIONS } from '../games/tree/decorations'
 import type { Items } from '../lib/items'
@@ -149,6 +150,8 @@ export function Room({ tree, showProgress, items, candles, onUnwrap }: RoomProps
             />
           ))}
           <ellipse cx="90" cy="210" rx="70" ry="9" fill="#f4f8ff" />
+          {/* the snowman from door 7, outside in the snow */}
+          <g data-slot="snowman">{items.snowman && <Snowman x={112} ground={206} radii={[13, 9.5, 7]} parts={['eyes', 'nose', 'hat', 'scarf', 'buttons']} />}</g>
         </g>
         <rect x="88" y="72" width="4" height="136" fill="#efe6d2" />
         <rect x="32" y="138" width="116" height="4" fill="#efe6d2" />

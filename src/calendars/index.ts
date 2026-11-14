@@ -39,6 +39,7 @@ const sharedDoors: Door[] = [
   { day: 21, type: 'garland' },
   { day: 15, type: 'treeGarland' },
   { day: 9, type: 'cookies' },
+  { day: 7, type: 'snowman' },
   { day: 18, type: 'game', game: 'snowball' },
   {
     day: 20,
