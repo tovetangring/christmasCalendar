@@ -7,6 +7,7 @@ import { CurtainCloth, RoomCurtains } from './Curtains'
 import { Garland } from './Garland'
 import { CookiePlate } from './Cookies'
 import { Snowman } from './Snowman'
+import { RoomGramophone } from './Gramophone'
 import { ICONS } from '../lib/icons'
 import { DECORATIONS } from '../games/tree/decorations'
 import type { Items } from '../lib/items'
@@ -219,6 +220,8 @@ export function Room({ tree, showProgress, items, candles, onUnwrap }: RoomProps
           )}
         </g>
         {/* The armchair with the solved crossword, in the right-hand corner */}
+        {/* the gramophone from door 11, against the wall left of the fireplace */}
+        <g data-slot="gramophone" transform="translate(206 338)">{items.gramophone && <RoomGramophone />}</g>
         <g data-slot="armchair" transform="translate(486 484)">{armchair && <Armchair />}</g>
         {/* Floor life: the fish from door 5, or the black cat once it has eaten it (door 16) */}
         <g data-slot="floor-pet" transform="translate(332 474)">{cat ? <RoomCat /> : fish ? <FloorFish /> : null}</g>

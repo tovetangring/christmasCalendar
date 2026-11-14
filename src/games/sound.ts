@@ -107,6 +107,12 @@ export const sounds = {
     tone(150, 0.12, { type: 'square', volume: 0.14, slideTo: 60 })
     tone(900, 0.04, { type: 'triangle', volume: 0.05 })
   },
+  // A hand bell: a clear tone with a couple of soft overtones, after `delay` seconds.
+  bell: (freq: number, delay = 0) => {
+    tone(freq, 1.1, { volume: 0.11, delay })
+    tone(freq * 2.01, 0.6, { volume: 0.035, delay })
+    tone(freq * 3.02, 0.3, { type: 'triangle', volume: 0.018, delay })
+  },
   cut: () => tone(520, 0.07, { type: 'triangle', volume: 0.06, slideTo: 780 }),
   miss: () => tone(420, 0.12, { volume: 0.05, slideTo: 250 }),
   // The creak and crash of a falling tree.

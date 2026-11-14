@@ -16,6 +16,7 @@ export const ITEMS = [
   'treeGarland', // door 15: the tinsel on the tree
   'cookies', // door 9: a plate of cookies in the window for Santa
   'snowman', // door 7: stands outside the window
+  'gramophone', // door 11: plays Bjällerklang in the room
 ] as const
 
 export type ItemId = (typeof ITEMS)[number]

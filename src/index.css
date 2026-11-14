@@ -91,7 +91,7 @@ button { font: inherit; cursor: pointer; padding: 12px 18px; border-radius: 8px;
   .door:hover:not(:disabled) { transform: none; }
   .modal, .tree-pop, .tree.spin, .xmas-tree .glow, .xmas-tree .light, .wordle-tile,
   .room-flake, .candle-flame, .fire-flame, .fire-glow, .wrap-half, .wrap-bow, .wrap-scissors,
-  .petting .cat-eyes, .petting .cat-body, .cat-heart, .magic-spark, .wreath-glow-pulse, .garland-light, .garland-tip, .cookie-smoke circle, .snowball-off,
+  .petting .cat-eyes, .petting .cat-body, .cat-heart, .magic-spark, .wreath-glow-pulse, .garland-light, .garland-tip, .cookie-smoke circle, .snowball-off, .bell-swing, .music-note, .record-shine,
   .axe.swing, .tree-shake, .wood-chip, .chop-popup { animation: none; }
   .tree-falling { transition: none; }
 }
@@ -292,3 +292,24 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 .snowman-parts button { padding: 6px 12px; font-size: 0.9rem; background: #2d4a3a; border: 1px solid var(--gold); }
 .snowball-off { transform-box: fill-box; transform-origin: center; animation: snowball-off 0.9s ease-in forwards; }
 @keyframes snowball-off { to { transform: translate(140px, 90px) rotate(200deg); opacity: 0; } }
+
+/* Door 11: play Bjällerklang on the hand bells; the gramophone in the room */
+.bells-door { text-align: center; margin: 4px 0 8px; }
+.bells-door button + button { margin-left: 8px; }
+.bells-stage { width: 360px; height: auto; user-select: none; touch-action: none; overflow: visible; }
+.hand-bell { cursor: pointer; }
+.hand-bell:focus { outline: none; }
+.hand-bell:focus-visible path { stroke: #f4d58d; }
+.bell-label { font: bold 13px Georgia, serif; fill: rgba(244, 213, 141, 0.8); }
+.bell-swing { animation: bell-swing 0.5s ease-out; }
+@keyframes bell-swing { 20% { transform: rotate(14deg); } 50% { transform: rotate(-10deg); } 75% { transform: rotate(5deg); } }
+.room-gramophone { cursor: pointer; }
+.room-gramophone:focus { outline: none; }
+.room-gramophone:focus-visible { filter: drop-shadow(0 0 4px #f4d58d); }
+.record-shine { transform-box: fill-box; transform-origin: center; animation: record-spin 0.8s linear infinite; }
+@keyframes record-spin { to { stroke-dashoffset: -32; } }
+.music-note { transform-box: fill-box; transform-origin: center; animation: music-note 1.8s ease-out forwards; }
+@keyframes music-note { from { opacity: 1; translate: 0 0; } to { opacity: 0; translate: 22px -60px; rotate: 20deg; } }
+.bell-glow { animation: bell-glow 0.7s ease-out forwards; }
+@keyframes bell-glow { from { opacity: 0.35; } to { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .bell-glow { animation: none; opacity: 0; } }
