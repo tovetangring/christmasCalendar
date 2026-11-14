@@ -30,3 +30,18 @@ export function swagPoint(swag: Swag, t: number, forwards: boolean): [number, nu
   const s = forwards ? t : 1 - t
   return [swag.left + (swag.right - swag.left) * s, swag.y + 4 * (1 - s) * s * swag.dip]
 }
+
+// Branch colours, top layer first.
+export const TREE_GREENS = ['#34b062', '#2fa35a', '#2a9652', '#25894a', '#207c42', '#1b6f3b']
+
+// One layer of branches: a triangle with a fringe of needle tips along the bottom.
+export function tierPath({ top, bottom, half }: Tier, drop = 0) {
+  const teeth = Math.round(half / 7)
+  let d = `M100 ${top + drop} L${100 + half} ${bottom + drop}`
+  for (let k = 1; k <= teeth; k++) {
+    const x = 100 + half - (2 * half * k) / teeth
+    const tipX = x + half / teeth
+    d += ` L${tipX} ${bottom + drop + 7} L${x} ${bottom + drop}`
+  }
+  return `${d} Z`
+}

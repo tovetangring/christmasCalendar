@@ -1,6 +1,7 @@
 import { isLit, type TreeState } from '../lib/tree'
 import { ICONS } from '../lib/icons'
 import { TIERS, halfWidthAt } from '../lib/treeShape'
+import { Decoration } from './Decoration'
 import { SvgIcon } from './Icon'
 import { TreeBody, TreeGarland } from './TreeShape'
 
@@ -27,10 +28,6 @@ export function ChristmasTree({ tree, garland = false, x, y, width, height }: Pr
   return (
       <svg x={x} y={y} width={width} height={height} viewBox="0 0 200 280" className={`xmas-tree ${lit ? 'lit' : ''}`} role="img" aria-label="Din julgran">
         <defs>
-          <radialGradient id="ball-shine" cx="35%" cy="35%" r="70%">
-            <stop offset="0" stopColor="#ff9c9c" />
-            <stop offset="1" stopColor="#b3121c" />
-          </radialGradient>
           <radialGradient id="tree-glow">
             <stop offset="0" stopColor="#ffe9a8" stopOpacity="0.55" />
             <stop offset="1" stopColor="#ffe9a8" stopOpacity="0" />
@@ -54,11 +51,11 @@ export function ChristmasTree({ tree, garland = false, x, y, width, height }: Pr
                 />
               )
             })}
-          {has('star') && <text x="100" y="26" fontSize="34" textAnchor="middle" dominantBaseline="central">⭐</text>}
-          {has('ball') && <circle cx="78" cy="132" r="10" fill="url(#ball-shine)" />}
-          {has('bell') && <text x="128" y="178" fontSize="22" textAnchor="middle" dominantBaseline="central">🔔</text>}
-          {has('stocking') && <text x="62" y="192" fontSize="22" textAnchor="middle" dominantBaseline="central">🧦</text>}
-          {has('cookie') && <text x="112" y="112" fontSize="22" textAnchor="middle" dominantBaseline="central">🍪</text>}
+          {has('star') && <Decoration id="star" x={100} y={24} size={34} />}
+          {has('ball') && <Decoration id="ball" x={78} y={132} size={22} />}
+          {has('bell') && <Decoration id="bell" x={128} y={176} size={22} />}
+          {has('stocking') && <Decoration id="stocking" x={62} y={190} size={22} />}
+          {has('cookie') && <Decoration id="cookie" x={112} y={112} size={22} />}
         </g>
         {tree.packages > 0 && (
           <g>
@@ -70,7 +67,7 @@ export function ChristmasTree({ tree, garland = false, x, y, width, height }: Pr
             )}
           </g>
         )}
-        {has('gift') && <text x="146" y="258" fontSize="30" textAnchor="middle" dominantBaseline="central">🎁</text>}
+        {has('gift') && <Decoration id="gift" x={148} y={256} size={30} />}
       </svg>
   )
 }

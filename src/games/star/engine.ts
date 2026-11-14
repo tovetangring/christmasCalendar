@@ -1,3 +1,5 @@
+import { drawDecoration } from '../../lib/decorationArt'
+import { TIERS, TREE_GREENS, tierPath } from '../../lib/treeShape'
 import { ignoreKey } from '../keys'
 
 // Release the swinging star so it lands exactly on the tip of the tree.
@@ -84,14 +86,37 @@ export function startStarGame(canvas: HTMLCanvasElement, onWin: () => void) {
     }
   }
 
-  function tier(apexY: number, baseY: number, half: number, color: string) {
-    ctx.fillStyle = color
-    ctx.beginPath()
-    ctx.moveTo(CX, apexY)
-    ctx.lineTo(CX + half, baseY)
-    ctx.lineTo(CX - half, baseY)
-    ctx.closePath()
-    ctx.fill()
+  // The same layered tree as in the Christmas room (src/lib/treeShape.ts), scaled so its top is at TIP_Y.
+  const TREE_SCALE = 0.78
+  const treeLayers = TIERS.map((tier, i) => ({ i, shape: new Path2D(tierPath(tier)), shadow: new Path2D(tierPath(tier, 5)), tier })).reverse()
+  function drawTree() {
+    ctx.save()
+    ctx.translate(CX - 100 * TREE_SCALE, TIP_Y - 30 * TREE_SCALE)
+    ctx.scale(TREE_SCALE, TREE_SCALE)
+    ctx.fillStyle = '#6b4423'
+    ctx.fillRect(90, 200, 20, 52)
+    ctx.fillStyle = '#7d5230'
+    ctx.fillRect(90, 200, 6, 52)
+    for (const { i, shape, shadow, tier } of treeLayers) {
+      if (i < TIERS.length - 1) {
+        ctx.globalAlpha = 0.35
+        ctx.fillStyle = '#0b3d22'
+        ctx.fill(shadow)
+        ctx.globalAlpha = 1
+      }
+      ctx.fillStyle = TREE_GREENS[i]
+      ctx.fill(shape)
+      ctx.globalAlpha = 0.12
+      ctx.fillStyle = '#000'
+      ctx.beginPath()
+      ctx.moveTo(100, tier.top)
+      ctx.lineTo(100 - tier.half, tier.bottom)
+      ctx.lineTo(100, tier.bottom + 4)
+      ctx.closePath()
+      ctx.fill()
+      ctx.globalAlpha = 1
+    }
+    ctx.restore()
   }
 
   function draw() {
@@ -103,11 +128,7 @@ export function startStarGame(canvas: HTMLCanvasElement, onWin: () => void) {
     ctx.fillStyle = '#eef4fb'
     ctx.fillRect(0, GROUND_Y - 6, W, H - GROUND_Y + 6)
 
-    ctx.fillStyle = '#6b4423'
-    ctx.fillRect(CX - 14, 266, 28, GROUND_Y - 266)
-    tier(205, 276, 100, '#1f7a3d')
-    tier(178, 246, 76, '#26924a')
-    tier(TIP_Y - 4, 216, 52, '#2fa859')
+    drawTree()
 
     // Crane rail and hook
     ctx.strokeStyle = '#8a8fb0'
@@ -138,11 +159,8 @@ export function startStarGame(canvas: HTMLCanvasElement, onWin: () => void) {
       ctx.globalAlpha = 1
     }
 
-    ctx.font = '36px serif'
+    drawDecoration(ctx, 'star', x, y, 40)
     ctx.textAlign = 'center'
-    ctx.textBaseline = 'middle'
-    ctx.fillStyle = '#fff'
-    ctx.fillText('⭐', x, y)
 
     for (const s of sparkles) {
       ctx.globalAlpha = 1 - s.age / 1.2
@@ -154,7 +172,13 @@ export function startStarGame(canvas: HTMLCanvasElement, onWin: () => void) {
     ctx.textBaseline = 'alphabetic'
     ctx.font = 'bold 16px Georgia, serif'
     ctx.fillStyle = '#fff'
-    if (phase === 'swing') ctx.fillText('Tryck när stjärnan är rakt över toppen!', CX, H - 10)
+    if (phase === 'swing') {
+      ctx.lineWidth = 4
+      ctx.lineJoin = 'round'
+      ctx.strokeStyle = 'rgba(11,30,60,0.85)'
+      ctx.strokeText('Tryck när stjärnan är rakt över toppen!', CX, 34)
+      ctx.fillText('Tryck när stjärnan är rakt över toppen!', CX, 34)
+    }
     else if (phase === 'missed') {
       ctx.font = 'bold 28px Georgia, serif'
       ctx.fillStyle = '#f4d58d'
@@ -162,7 +186,7 @@ export function startStarGame(canvas: HTMLCanvasElement, onWin: () => void) {
     } else if (phase === 'landed') {
       ctx.font = 'bold 28px Georgia, serif'
       ctx.fillStyle = '#f4d58d'
-      ctx.fillText('Perfekt! ⭐', CX, 110)
+      ctx.fillText('Perfekt!', CX, 110)
     }
   }
 

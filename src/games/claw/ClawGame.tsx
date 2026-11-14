@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { CandyReward } from '../../components/CandyReward'
+import { DecorationIcon } from '../../components/Decoration'
 import { addDecoration, getTree, isLit, useTree } from '../../lib/tree'
 import { addCandy } from '../../lib/wallet'
 import { CLAW_DECORATIONS, DECORATIONS, type DecorationId } from '../tree/decorations'
@@ -30,7 +31,15 @@ export function ClawGame({ calendarId }: { calendarId: string }) {
     <div>
       <canvas ref={canvasRef} className="game-canvas" />
       <p className="collected" aria-label="Insamlat pynt">
-        {CLAW_DECORATIONS.map((d) => (tree.decorations.includes(d.id) ? d.emoji : '❔')).join(' ')}
+        {CLAW_DECORATIONS.map((d) =>
+          tree.decorations.includes(d.id) ? (
+            <DecorationIcon key={d.id} id={d.id} />
+          ) : (
+            <span key={d.id} className="collected-missing" aria-label="saknas">
+              ?
+            </span>
+          ),
+        )}
       </p>
       <p className="game-status">
         {isLit(tree) ? (

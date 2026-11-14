@@ -1,5 +1,6 @@
 // Claw machine: move the claw, press DROP, and bring a decoration to the chute.
 import { ignoreKey } from '../keys'
+import { drawDecoration } from '../../lib/decorationArt'
 import { CLAW_DECORATIONS, DECORATIONS, type DecorationId } from '../tree/decorations'
 
 const W = 480
@@ -121,7 +122,7 @@ export function startClawGame(canvas: HTMLCanvasElement, { getOwned, onPrize }: 
       if (fall!.y >= CHUTE_BOTTOM) {
         const won = carried!
         const label = DECORATIONS.find((d) => d.id === won.id)!
-        popup = { text: `${label.emoji} ${label.label}!`, age: 0 }
+        popup = { text: `${label.label}!`, age: 0 }
         onPrize(won.id)
         carried = null
         fall = null
@@ -131,15 +132,6 @@ export function startClawGame(canvas: HTMLCanvasElement, { getOwned, onPrize }: 
       }
     }
   }
-
-  function emoji(char: string, x: number, y: number, size: number) {
-    ctx.font = `${size}px serif`
-    ctx.textAlign = 'center'
-    ctx.textBaseline = 'middle'
-    ctx.fillStyle = '#fff'
-    ctx.fillText(char, x, y)
-  }
-  const emojiFor = (id: DecorationId) => DECORATIONS.find((d) => d.id === id)!.emoji
 
   function draw() {
     // Machine interior
@@ -172,7 +164,7 @@ export function startClawGame(canvas: HTMLCanvasElement, { getOwned, onPrize }: 
     ctx.stroke()
 
     // Prizes
-    for (const p of [...prizes].sort((a, b) => a.y - b.y)) emoji(emojiFor(p.id), p.x, p.y, 30)
+    for (const p of [...prizes].sort((a, b) => a.y - b.y)) drawDecoration(ctx, p.id, p.x, p.y, 30)
 
     // Rope + claw
     ctx.strokeStyle = '#c9cde6'
@@ -192,8 +184,8 @@ export function startClawGame(canvas: HTMLCanvasElement, { getOwned, onPrize }: 
       ctx.lineTo(clawX + d * Math.sin(angle) * 28, clawY + Math.cos(angle) * 28)
       ctx.stroke()
     }
-    if (carried) emoji(emojiFor(carried.id), clawX, clawY + 22, 30)
-    if (fall) emoji(emojiFor(carried!.id), CHUTE_X, fall.y, 30)
+    if (carried) drawDecoration(ctx, carried.id, clawX, clawY + 22, 30)
+    if (fall) drawDecoration(ctx, carried!.id, CHUTE_X, fall.y, 30)
 
     // Glass frame on top of everything inside the machine
     ctx.strokeStyle = 'rgba(180,220,255,0.7)'

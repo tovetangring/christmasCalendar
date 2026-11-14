@@ -1,20 +1,6 @@
-import { SWAGS, TIERS, halfWidthAt, swagPoint, type Tier } from '../lib/treeShape'
+import { SWAGS, TIERS, TREE_GREENS, halfWidthAt, swagPoint, tierPath } from '../lib/treeShape'
 
 // The tree itself, drawn in the tree picture's coordinates (see src/lib/treeShape.ts).
-const GREENS = ['#34b062', '#2fa35a', '#2a9652', '#25894a', '#207c42', '#1b6f3b']
-
-// One layer of branches: a triangle with a fringe of needle tips along the bottom.
-function tierPath({ top, bottom, half }: Tier, drop = 0) {
-  const teeth = Math.round(half / 7)
-  let d = `M100 ${top + drop} L${100 + half} ${bottom + drop}`
-  for (let k = 1; k <= teeth; k++) {
-    const x = 100 + half - (2 * half * k) / teeth
-    const tipX = x + half / teeth
-    d += ` L${tipX} ${bottom + drop + 7} L${x} ${bottom + drop}`
-  }
-  return `${d} Z`
-}
-
 export function TreeBody() {
   return (
     <g>
@@ -32,7 +18,7 @@ export function TreeBody() {
           return (
             <g key={i}>
               {i < TIERS.length - 1 && <path d={tierPath(tier, 5)} fill="#0b3d22" opacity="0.35" />}
-              <path d={tierPath(tier)} fill={GREENS[i]} />
+              <path d={tierPath(tier)} fill={TREE_GREENS[i]} />
               {/* the shady left half gives the tree some depth */}
               <path d={`M100 ${tier.top} L${100 - tier.half} ${tier.bottom} L100 ${tier.bottom + 4} Z`} fill="#000" opacity="0.12" />
               {Array.from({ length: needles }, (_, j) => {
