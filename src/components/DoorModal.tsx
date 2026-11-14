@@ -36,7 +36,7 @@ export function DoorModal({ door, calendarId, player, onClose }: Props) {
         aria-labelledby="door-title"
         tabIndex={-1}
       >
-        <h2 id="door-title">December {door.day}</h2>
+        <h2 id="door-title">Lucka {door.day}</h2>
         {renderDoor(door, { calendarId, player })}
         <button onClick={onClose}>Stäng</button>
       </div>

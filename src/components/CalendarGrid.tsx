@@ -71,7 +71,7 @@ export function CalendarGrid({ calendar }: { calendar: Calendar }) {
                   className={`door ${isOpen ? 'open' : ''}`}
                   style={hint ? ({ '--door-bg': hint.color } as CSSProperties) : undefined}
                   disabled={!unlocked}
-                  title={unlocked ? undefined : `Opens December ${door.day}`}
+                  title={unlocked ? undefined : `Öppnas den ${door.day} december`}
                   onClick={() => {
                     markOpened(door.day)
                     setActiveDay(door.day)
