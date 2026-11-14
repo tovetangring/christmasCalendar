@@ -12,6 +12,7 @@ export const ITEMS = [
   'armchair', // door 8 (the crossword)
   'wreath', // door 12
   'curtains', // door 19
+  'garland', // door 21
 ] as const
 
 export type ItemId = (typeof ITEMS)[number]

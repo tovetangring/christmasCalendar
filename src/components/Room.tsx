@@ -4,6 +4,7 @@ import { SvgIcon } from './Icon'
 import { Armchair, FloorFish, RoomCat } from './RoomPets'
 import { Wreath } from './Wreath'
 import { CurtainCloth, RoomCurtains } from './Curtains'
+import { Garland } from './Garland'
 import { ICONS } from '../lib/icons'
 import { DECORATIONS } from '../games/tree/decorations'
 import type { Items } from '../lib/items'
@@ -41,7 +42,7 @@ type RoomProps = {
 }
 
 export function Room({ tree, showProgress, items, candles, onUnwrap }: RoomProps) {
-  const { rug, treeStand, fish, cat, armchair, wreath, curtains, scissors: hasScissors } = items
+  const { rug, treeStand, fish, cat, armchair, wreath, curtains, garland, scissors: hasScissors } = items
   const wrapped = !items.unwrapped
   const [cutting, setCutting] = useState(false) // the cut animation is playing
   const [needScissors, setNeedScissors] = useState(false)
@@ -125,6 +126,7 @@ export function Room({ tree, showProgress, items, candles, onUnwrap }: RoomProps
         <rect y="330" width="560" height="190" fill="url(#room-floor)" />
         <rect y="322" width="560" height="10" fill="#e9dfc9" />
         <rect y="0" width="560" height="10" fill="#e9dfc9" />
+        <g data-slot="garland">{garland && <Garland width={560} top={11} />}</g>
 
         {/* Window with falling snow */}
         <rect x="22" y="62" width="136" height="156" rx="3" fill="#efe6d2" />

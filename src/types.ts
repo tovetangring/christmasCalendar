@@ -20,6 +20,7 @@ export type Door = DoorEffects &
   | { day: number; type: 'message'; text: string; from: 'santa' | 'neighbour'; gives: 'scissors' | 'treeStand' } // a note that hands over an item (doors 1 and 3)
   | { day: number; type: 'wreath' } // door 12: spin the wreath
   | { day: number; type: 'curtains' } // door 19: open the curtains
+  | { day: number; type: 'garland' } // door 21: hang the garland
   | { day: number; type: 'cat' } // door 16: a cat eats the fish
   | { day: number; type: 'video'; youtubeId: string; title?: string } // the id is the part after v= in the YouTube link
   )

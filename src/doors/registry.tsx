@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import type { Door, GameId } from '../types'
 import { CatDoor } from '../components/doors/CatDoor'
 import { CurtainsDoor } from '../components/doors/CurtainsDoor'
+import { GarlandDoor } from '../components/doors/GarlandDoor'
 import { MessageDoor } from '../components/doors/MessageDoor'
 import { QuoteDoor } from '../components/doors/QuoteDoor'
 import { VideoDoor } from '../components/doors/VideoDoor'
@@ -69,6 +70,11 @@ const DOOR_TYPES: ByType = {
   curtains: {
     hint: () => ({ emoji: '🪟', color: '#9c2a35' }),
     render: (_, { calendarId }) => <CurtainsDoor calendarId={calendarId} />,
+  },
+  garland: {
+    hint: () => ({ emoji: '✨', color: '#3c6b3a' }),
+    wide: true,
+    render: (_, { calendarId }) => <GarlandDoor calendarId={calendarId} />,
   },
   cat: { hint: () => ({ emoji: '🐾', color: '#3a3a44' }), render: (_, { calendarId }) => <CatDoor calendarId={calendarId} /> },
   video: { hint: () => ({ emoji: '🎬', color: '#b3262e' }), wide: true, render: (door) => <VideoDoor door={door} /> },
