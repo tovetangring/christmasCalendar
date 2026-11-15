@@ -49,6 +49,7 @@ function buildSteps(calendarId: string): { steps: Step[]; final: Snapshot } {
   item('gramophone', 'Lucka 11: grammofonen')
   item('wreath', 'Lucka 12: kransen på dörren')
   candle(2, 'Lucka 13: tredje adventsljuset')
+  item('lussekatter', 'Lucka 13: lussekatter från luciatåget')
   item('treeGarland', 'Lucka 15: glittergirlangen')
   if (items.cat) steps.push({ text: 'Lucka 16: katten som åt fisken – och stannade', apply: (s) => ((s.items.fish = false), (s.items.cat = true)) })
   if (tree.packages) steps.push({ text: 'Lucka 17: paket från lyckohjulet', apply: (s) => (s.tree.packages = tree.packages) })

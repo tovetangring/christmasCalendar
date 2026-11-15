@@ -28,9 +28,8 @@ const sharedDoors: Door[] = [
   },
   {
     day: 13,
-    type: 'quote',
+    type: 'lucia',
     lightsCandle: 3,
-    poem: true,
     text: 'När tredje ljuset brinner\nvi juleklappar syr\noch mamma bakar kakor\noch har ett fasligt styr',
   },
   { day: 12, type: 'wreath' },
@@ -65,6 +64,13 @@ function withSharedDoors(calendar: Calendar): Calendar {
     ...calendar,
     doors: calendar.doors.map((door) => sharedDoors.find((s) => s.day === door.day) ?? door),
   }
+}
+
+// A player's own calendar (with Firebase, everyone who signs in gets one, keyed by their user id).
+const placeholderDoors = Array.from({ length: 24 }, (_, i): Door => ({ day: i + 1, type: 'quote', text: 'God jul!' }))
+const genitive = (name: string) => (/[sxz]$/i.test(name) ? name : `${name}s`)
+export function playerCalendar(id: string, player: string): Calendar {
+  return withSharedDoors({ id, player, name: `${genitive(player)} julkalender`, doors: placeholderDoors })
 }
 
 // Keys are lowercase codes.

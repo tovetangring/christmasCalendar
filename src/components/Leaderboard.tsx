@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getHighScores, HIGHSCORES_CHANGED, type HighScore } from '../lib/highscores'
+import { subscribeHighScores, type HighScore } from '../lib/highscores'
 import type { ScoreGameId } from '../types'
 
 const TITLES: Record<ScoreGameId, string> = {
@@ -10,12 +10,7 @@ const TITLES: Record<ScoreGameId, string> = {
 export function Leaderboard({ gameId }: { gameId: ScoreGameId }) {
   const [scores, setScores] = useState<HighScore[]>([])
 
-  useEffect(() => {
-    const load = () => getHighScores(gameId).then(setScores)
-    load()
-    window.addEventListener(HIGHSCORES_CHANGED, load)
-    return () => window.removeEventListener(HIGHSCORES_CHANGED, load)
-  }, [gameId])
+  useEffect(() => subscribeHighScores(gameId, setScores), [gameId])
 
   return (
     <div className="leaderboard">

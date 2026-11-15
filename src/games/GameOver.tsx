@@ -6,6 +6,7 @@ import { CandyReward } from '../components/CandyReward'
 // The score is saved automatically under the calendar's player name; nobody types a name.
 export function GameOver({
   gameId,
+  calendarId,
   player,
   score,
   message,
@@ -13,6 +14,7 @@ export function GameOver({
   onAgain,
 }: {
   gameId: ScoreGameId
+  calendarId: string // whose row in the highscore list
   player: string
   score: number
   message: ReactNode
@@ -24,8 +26,8 @@ export function GameOver({
   useEffect(() => {
     if (saved.current) return
     saved.current = true
-    void addHighScore(gameId, player, score)
-  }, [gameId, player, score])
+    addHighScore(gameId, calendarId, player, score).catch((e) => console.warn('Kunde inte spara poängen', e))
+  }, [gameId, calendarId, player, score])
 
   return (
     <div className="gameover">

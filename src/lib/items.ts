@@ -17,6 +17,7 @@ export const ITEMS = [
   'cookies', // door 9: a plate of cookies in the window for Santa
   'snowman', // door 7: stands outside the window
   'gramophone', // door 11: plays Bjällerklang in the room
+  'lussekatter', // door 13: a tray of saffron buns from the Lucia procession
   'santaGift', // door 24: Santa came by, ate the cookies and left a golden present
 ] as const
 

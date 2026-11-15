@@ -11,6 +11,7 @@ import { RoomGramophone } from './Gramophone'
 import { GiftBox, PaperPatterns } from './WrappedGift'
 import type { GiftStyle } from '../lib/wrappedGift'
 import { SantaFigure, SantaGift } from './Santa'
+import { LussekattTray } from './Lucia'
 import { ICONS } from '../lib/icons'
 import { DECORATIONS } from '../games/tree/decorations'
 import type { Items } from '../lib/items'
@@ -204,6 +205,9 @@ export function Room({ tree, showProgress, items, candles, wrappedGift, onUnwrap
             )}
           </g>
         ))}
+
+        {/* the tray of lussekatter from the Lucia procession (door 13), on the floor by the fireplace */}
+        <g data-slot="lussekatter" transform="translate(398 346)">{items.lussekatter && <LussekattTray />}</g>
 
         {/* Front door (it opens for Santa in door 24, showing the snowy night behind it) */}
         <rect x="428" y="70" width="112" height="262" rx="3" fill="#3d2412" />

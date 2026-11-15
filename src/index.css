@@ -91,7 +91,7 @@ button { font: inherit; cursor: pointer; padding: 12px 18px; border-radius: 8px;
   .door:hover:not(:disabled) { transform: none; }
   .modal, .tree-pop, .tree.spin, .xmas-tree .glow, .xmas-tree .light, .wordle-tile,
   .room-flake, .candle-flame, .fire-flame, .fire-glow, .wrap-half, .wrap-bow, .wrap-scissors,
-  .petting .cat-eyes, .petting .cat-body, .cat-heart, .magic-spark, .wreath-glow-pulse, .garland-light, .garland-tip, .cookie-smoke circle, .snowball-off, .bell-swing, .music-note, .record-shine, .cat-walk, .cat-purring, .cat-treat, .wrap-folded,
+  .petting .cat-eyes, .petting .cat-body, .cat-heart, .magic-spark, .wreath-glow-pulse, .garland-light, .garland-tip, .cookie-smoke circle, .snowball-off, .bell-swing, .music-note, .record-shine, .cat-walk, .cat-purring, .cat-treat, .wrap-folded, .lucia-procession, .lucia-flame,
   .axe.swing, .tree-shake, .wood-chip, .chop-popup { animation: none; }
   .tree-falling { transition: none; }
 }
@@ -360,3 +360,21 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 .santa-card-sign { text-align: right; font-weight: bold; }
 @keyframes santa-card { from { opacity: 0; transform: translate(-50%, -40%) scale(0.6) rotate(-8deg); } }
 @media (prefers-reduced-motion: reduce) { .santa-card, .finale-room.looking-back [data-slot] > * { animation: none; } }
+
+/* Door 13: Lucia */
+.lucia-door { text-align: center; margin: 4px 0 8px; }
+.lucia-stage { width: 100%; height: auto; border-radius: 8px; user-select: none; overflow: hidden; }
+.lucia-dark { transition: opacity 0.6s ease; }
+.crown-candle { cursor: pointer; }
+.crown-candle:focus { outline: none; }
+.crown-candle:focus-visible rect:nth-child(2) { stroke: #f4d58d; stroke-width: 1.2; }
+.lucia-flame { transform-box: fill-box; transform-origin: 50% 100%; animation: candle-flicker 0.9s ease-in-out infinite alternate; }
+.lucia-procession { animation: lucia-walk linear forwards; }
+.lucia-arrived { transform: translateX(470px); opacity: 0; }
+@keyframes lucia-walk { from { transform: translateX(-40px); } to { transform: translateX(470px); } }
+.lucia-poem { margin: 6px 0 2px; white-space: pre-line; font-style: italic; line-height: 1.6; color: var(--gold); }
+
+/* Signing in and out (Firebase) */
+.account-links { display: flex; justify-content: center; align-items: center; gap: 18px; }
+.link-button { padding: 0; background: none; color: var(--gold); text-decoration: underline; font-size: 1rem; }
+.sync-warning { position: relative; z-index: 2; text-align: center; margin: 8px 0 0; }

@@ -1,0 +1,37 @@
+rules_version = '2';
+
+// Security rules for the Christmas calendar. Paste into Firebase: Firestore Database -> Rules -> Publish.
+// Anyone can sign in with Google and gets their own calendar (calendars/<their uid>).
+// The admin (keep in sync with ADMIN_EMAILS in src/lib/firebase.ts) can open every calendar, for testing.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+    function isAdmin() {
+      return signedIn()
+        && request.auth.token.email_verified == true
+        && request.auth.token.email in ['tove.tangring@netlight.com'];
+    }
+
+    // One document per calendar with the saved progress (the same text as in localStorage).
+    match /calendars/{calendarId} {
+      allow read: if signedIn() && (request.auth.uid == calendarId || isAdmin());
+      allow write: if signedIn() && (request.auth.uid == calendarId || isAdmin())
+        && request.resource.data.keys().hasOnly(['data', 'updatedAt'])
+        && request.resource.data.data is map;
+    }
+
+    // Shared highscore lists: everyone signed in can read them, but you can only write your own row.
+    match /highscores/{game}/players/{playerId} {
+      allow read: if signedIn();
+      allow write: if signedIn() && (request.auth.uid == playerId || isAdmin())
+        && request.resource.data.keys().hasOnly(['name', 'score', 'date'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0 && request.resource.data.name.size() <= 16
+        && request.resource.data.score is int
+        && request.resource.data.score > -10000 && request.resource.data.score < 1000000
+        && request.resource.data.date is int;
+    }
+  }
+}

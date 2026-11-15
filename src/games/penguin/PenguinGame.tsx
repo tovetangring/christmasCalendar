@@ -4,7 +4,7 @@ import { Icon } from '../../components/Icon'
 import { giveFish } from '../../lib/items'
 import { ICONS } from '../../lib/icons'
 import { addCandy } from '../../lib/wallet'
-import { getHighScores } from '../../lib/highscores'
+import { getPlayerBest } from '../../lib/highscores'
 import { isMuted, setMuted } from '../sound'
 import { startPenguinGame, type PenguinController } from './engine'
 
@@ -25,14 +25,13 @@ export function PenguinGame({ player, calendarId }: { player: string; calendarId
 
   useEffect(() => {
     let alive = true
-    getHighScores('penguin', 50).then((list) => {
-      const mine = list.find((s) => s.name.toLowerCase() === player.toLowerCase())
-      if (alive) setBest(mine?.score ?? 0)
-    })
+    getPlayerBest('penguin', calendarId, player)
+      .then((score) => alive && setBest(score))
+      .catch(() => {})
     return () => {
       alive = false
     }
-  }, [player, run])
+  }, [player, calendarId, run])
 
   useEffect(() => {
     const game = startPenguinGame(canvasRef.current!, {
@@ -79,6 +78,7 @@ export function PenguinGame({ player, calendarId }: { player: string; calendarId
         <GameOver
           key={run}
           gameId="penguin"
+          calendarId={calendarId}
           player={player}
           score={finalScore}
           message={

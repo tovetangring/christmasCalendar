@@ -13,3 +13,13 @@ npm run lint
 - Add `?debug` to the URL (e.g. `/?debug#/c/ivar`) to unlock every door while testing.
 - Calendars live in `src/calendars/`. Games shared by every calendar are listed in `src/calendars/index.ts`.
 - Each game is an `engine.ts` (canvas) plus a small React wrapper in `src/games/<name>/`.
+
+## Firebase (sign-in, saved progress, shared highscores)
+
+With the Firebase settings in `.env.local` (copy `.env.example`), everyone signs in with Google and gets their own
+calendar. Progress is saved in Firestore (`calendars/<uid>`) and the highscore lists are shared
+(`highscores/<game>/players/<uid>`). Without `.env.local` everything runs locally, chosen by code, as before.
+
+- Paste `firestore.rules` into Firebase: Firestore Database -> Rules -> Publish.
+- The admin (in `src/lib/firebase.ts` and `firestore.rules`) can also open the code calendars via "Admin".
+- When the site is hosted somewhere, add that domain under Authentication -> Settings -> Authorized domains.

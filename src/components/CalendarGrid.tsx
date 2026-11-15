@@ -1,4 +1,4 @@
-import { useState, type CSSProperties } from 'react'
+import { useState, type CSSProperties, type ReactNode } from 'react'
 import { isScoreGame, type Calendar } from '../types'
 import { doorHint } from '../doors/registry'
 import { useOpenedDoors } from '../hooks/useOpenedDoors'
@@ -17,7 +17,8 @@ import { Room } from './Room'
 // The home page has fixed zones, so nothing jumps around when the tree or a highscore list appears:
 // top row = the Christmas room (with the tree) and the calendar doors in equally tall frames;
 // the highscore lists sit below the room.
-export function CalendarGrid({ calendar }: { calendar: Calendar }) {
+// `footer` replaces the default "Byt kalender" link (with Firebase: sign out, and for the admin a way to other calendars).
+export function CalendarGrid({ calendar, footer }: { calendar: Calendar; footer?: ReactNode }) {
   const { opened, markOpened } = useOpenedDoors(calendar.id)
   const tree = useTree(calendar.id)
   const candy = useCandy(calendar.id)
@@ -101,7 +102,11 @@ export function CalendarGrid({ calendar }: { calendar: Calendar }) {
       </div>
 
       {active && <DoorModal door={active} calendarId={calendar.id} player={calendar.player} onClose={() => setActiveDay(null)} />}
-      <a className="back" href="#/">← Byt kalender</a>
+      {footer ?? (
+        <a className="back" href="#/">
+          ← Byt kalender
+        </a>
+      )}
     </main>
   )
 }

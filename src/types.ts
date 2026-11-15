@@ -26,6 +26,7 @@ export type Door = DoorEffects &
   | { day: number; type: 'snowman' } // door 7: build a snowman
   | { day: number; type: 'bells' } // door 11: play Bjällerklang on hand bells
   | { day: number; type: 'giftWrap' } // door 22: wrap a present for under the tree
+  | { day: number; type: 'lucia'; text: string } // door 13: Lucia (text = the Advent poem)
   | { day: number; type: 'finale' } // door 24: Christmas Eve, a look back and Santa's visit
   | { day: number; type: 'cat' } // door 16: a cat eats the fish
   | { day: number; type: 'video'; youtubeId: string; title?: string } // the id is the part after v= in the YouTube link

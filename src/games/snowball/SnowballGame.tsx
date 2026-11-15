@@ -24,6 +24,7 @@ export function SnowballGame({ player, calendarId }: { player: string; calendarI
         <GameOver
           key={run}
           gameId="snowball"
+          calendarId={calendarId}
           player={player}
           score={finalScore}
           message={

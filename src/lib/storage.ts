@@ -11,7 +11,16 @@ export function readString(key: string): string | null {
   }
 }
 
+// Lets the cloud sync (src/lib/cloudSync.ts) hear about every saved value.
+type WriteListener = (key: string, value: string) => void
+const writeListeners = new Set<WriteListener>()
+export function onWrite(listener: WriteListener) {
+  writeListeners.add(listener)
+  return () => writeListeners.delete(listener)
+}
+
 export function writeString(key: string, value: string): void {
+  writeListeners.forEach((l) => l(key, value))
   try {
     localStorage.setItem(key, value)
     memory.delete(key)

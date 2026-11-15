@@ -9,6 +9,7 @@ import { SnowmanDoor } from '../components/doors/SnowmanDoor'
 import { BellsDoor } from '../components/doors/BellsDoor'
 import { GiftWrapDoor } from '../components/doors/GiftWrapDoor'
 import { FinaleDoor } from '../components/doors/FinaleDoor'
+import { LuciaDoor } from '../components/doors/LuciaDoor'
 import { MessageDoor } from '../components/doors/MessageDoor'
 import { QuoteDoor } from '../components/doors/QuoteDoor'
 import { VideoDoor } from '../components/doors/VideoDoor'
@@ -90,6 +91,11 @@ const DOOR_TYPES: ByType = {
   snowman: { hint: () => ({ emoji: '☃️', color: '#4a6fa0' }), render: (_, { calendarId }) => <SnowmanDoor calendarId={calendarId} /> },
   bells: { hint: () => ({ emoji: '🎶', color: '#6a4fa0' }), render: (_, { calendarId }) => <BellsDoor calendarId={calendarId} /> },
   giftWrap: { hint: () => ({ emoji: '🎀', color: '#b3263f' }), render: (_, { calendarId }) => <GiftWrapDoor calendarId={calendarId} /> },
+  lucia: {
+    hint: () => ({ emoji: '👑', color: '#a8801f' }),
+    wide: true,
+    render: (door, { calendarId }) => <LuciaDoor door={door} calendarId={calendarId} />,
+  },
   finale: {
     hint: () => ({ emoji: '🎅', color: '#b3262e' }),
     wide: true,
