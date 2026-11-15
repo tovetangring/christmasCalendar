@@ -12,7 +12,7 @@ export function VideoDoor({ door }: { door: VideoDoorData }) {
       <div className="video">
         <iframe
           src={`https://www.youtube.com/embed/${door.youtubeId}?rel=0&playsinline=1&origin=${origin}`}
-          title={door.title ?? 'Video'}
+          title={door.title ?? 'Julvideo'}
           allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen"
           allowFullScreen
           referrerPolicy="strict-origin-when-cross-origin"

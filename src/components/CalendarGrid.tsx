@@ -35,7 +35,7 @@ export function CalendarGrid({ calendar }: { calendar: Calendar }) {
   return (
     <main className="page wide-page">
       <h1>{calendar.name}</h1>
-      {isDebug() && <p className="hint">Debug mode: all doors unlocked</p>}
+      {isDebug() && <p className="hint">Testläge: alla luckor är upplåsta</p>}
       <div className="pockets">
       {candy > 0 && (
         <div className="sack" title="Din godissäck" aria-label={`Din godissäck: ${candy} godis`}>
@@ -101,7 +101,7 @@ export function CalendarGrid({ calendar }: { calendar: Calendar }) {
       </div>
 
       {active && <DoorModal door={active} calendarId={calendar.id} player={calendar.player} onClose={() => setActiveDay(null)} />}
-      <a className="back" href="#/">← Enter another code</a>
+      <a className="back" href="#/">← Byt kalender</a>
     </main>
   )
 }

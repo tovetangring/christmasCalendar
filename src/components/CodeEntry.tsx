@@ -20,7 +20,7 @@ export function CodeEntry() {
         <span className={`tree ${spin ? 'spin' : ''}`} onClick={() => setSpin(true)} onAnimationEnd={() => setSpin(false)}>
           🎄
         </span>{' '}
-        Christmas Calendar
+        Julkalender
       </h1>
       <form onSubmit={submit}>
         <input
@@ -30,12 +30,12 @@ export function CodeEntry() {
             setCode(e.target.value)
             setError(false)
           }}
-          placeholder="Enter your code"
-          aria-label="Calendar code"
+          placeholder="Skriv din kod"
+          aria-label="Kalenderkod"
         />
-        <button type="submit">Open</button>
+        <button type="submit">Öppna</button>
       </form>
-      {error && <p className="error">Hmm, that code doesn’t open anything. Try again!</p>}
+      {error && <p className="error">Hmm, den koden öppnar ingen kalender. Försök igen!</p>}
     </main>
   )
 }
