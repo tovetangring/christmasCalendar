@@ -23,3 +23,10 @@ calendar. Progress is saved in Firestore (`calendars/<uid>`) and the highscore l
 - Paste `firestore.rules` into Firebase: Firestore Database -> Rules -> Publish.
 - The admin (in `src/lib/firebase.ts` and `firestore.rules`) can also open the code calendars via "Admin".
 - When the site is hosted somewhere, add that domain under Authentication -> Settings -> Authorized domains.
+
+## Hosting on Netlify
+
+`netlify.toml` tells Netlify to run `npm run build` and publish `dist/`. In Netlify, add the same `VITE_FIREBASE_*`
+variables as in `.env.local` (Site configuration -> Environment variables), then add the site's domain
+(e.g. `julkalender.netlify.app`) in Firebase under Authentication -> Settings -> Authorized domains.
+The app uses hash URLs (`#/...`), so no redirect rules are needed.
