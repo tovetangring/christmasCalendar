@@ -6,7 +6,7 @@ import { onWrite, readString, writeString } from './storage'
 // Keeps a calendar's progress in Firestore (calendars/<id>), so it follows you between computers.
 // localStorage stays the working copy: on opening, what is in the cloud is copied into it (or, the first time,
 // what is already saved locally is uploaded); after that every change is sent up shortly after it is made.
-const SYNCED = ['items', 'tree', 'candy', 'opened', 'wrapped', 'wordle', 'crossword'] as const
+const SYNCED = ['items', 'tree', 'candy', 'opened', 'wrapped', 'wordle', 'crossword', 'name'] as const
 const DELAY_MS = 700
 
 export type SyncStatus = 'loading' | 'ready' | 'error'

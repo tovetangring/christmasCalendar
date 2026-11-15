@@ -68,7 +68,7 @@ function withSharedDoors(calendar: Calendar): Calendar {
 
 // A player's own calendar (with Firebase, everyone who signs in gets one, keyed by their user id).
 const placeholderDoors = Array.from({ length: 24 }, (_, i): Door => ({ day: i + 1, type: 'quote', text: 'God jul!' }))
-const genitive = (name: string) => (/[sxz]$/i.test(name) ? name : `${name}s`)
+export const genitive = (name: string) => (/[sxz]$/i.test(name) ? name : `${name}s`)
 export function playerCalendar(id: string, player: string): Calendar {
   return withSharedDoors({ id, player, name: `${genitive(player)} julkalender`, doors: placeholderDoors })
 }

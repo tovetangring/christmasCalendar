@@ -1,6 +1,10 @@
+import { auth, firebaseEnabled, isAdmin } from './firebase'
+
 // Add ?debug to the URL (e.g. /?debug#/c/ivar) to unlock every door while testing.
+// With Firebase only the admin account can use it; without Firebase (local development) anyone can.
 export function isDebug(): boolean {
-  return new URLSearchParams(window.location.search).has('debug')
+  if (!new URLSearchParams(window.location.search).has('debug')) return false
+  return !firebaseEnabled || isAdmin(auth?.currentUser ?? null)
 }
 
 export function isUnlocked(day: number, now = new Date()): boolean {

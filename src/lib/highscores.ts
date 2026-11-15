@@ -1,5 +1,5 @@
-import { collection, doc, getDoc, limit, onSnapshot, orderBy, query, setDoc } from 'firebase/firestore'
-import type { ScoreGameId } from '../types'
+import { collection, doc, getDoc, limit, onSnapshot, orderBy, query, setDoc, updateDoc } from 'firebase/firestore'
+import { SCORE_GAMES, type ScoreGameId } from '../types'
 import { db } from './firebase'
 import { readString, writeString } from './storage'
 
@@ -72,5 +72,26 @@ export async function addHighScore(game: ScoreGameId, playerId: string, name: st
   if (previous && previous.score >= entry.score) return
   const next = [...scores.filter((s) => s !== previous), entry].sort((a, b) => b.score - a.score).slice(0, MAX_KEPT)
   writeString(keyFor(game), JSON.stringify(next))
+  window.dispatchEvent(new Event(LOCAL_EVENT))
+}
+
+// The player changed their name: update it on their rows in every list, so old scores show the new name.
+export async function renameInHighScores(playerId: string, oldName: string, newName: string): Promise<void> {
+  const name = cleanName(newName)
+  if (db) {
+    const database = db
+    await Promise.all(
+      SCORE_GAMES.map(async (game) => {
+        const ref = doc(database, 'highscores', game, 'players', playerId)
+        if ((await getDoc(ref)).exists()) await updateDoc(ref, { name })
+      }),
+    )
+    return
+  }
+  for (const game of SCORE_GAMES) {
+    const old = cleanName(oldName).toLowerCase()
+    const scores = readLocal(game).map((s) => (s.name.toLowerCase() === old ? { ...s, name } : s))
+    writeString(keyFor(game), JSON.stringify(scores))
+  }
   window.dispatchEvent(new Event(LOCAL_EVENT))
 }

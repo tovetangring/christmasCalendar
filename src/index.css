@@ -378,3 +378,10 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 .account-links { display: flex; justify-content: center; align-items: center; gap: 18px; }
 .link-button { padding: 0; background: none; color: var(--gold); text-decoration: underline; font-size: 1rem; }
 .sync-warning { position: relative; z-index: 2; text-align: center; margin: 8px 0 0; }
+
+/* The player's name under the calendar title */
+.player-name { margin: -10px 0 10px; font-size: 0.95rem; color: var(--text); }
+.player-name .link-button { font-size: 0.9rem; margin-left: 4px; }
+.player-name-form { margin: -10px 0 10px; }
+.player-name-form input { padding: 6px 10px; font-size: 0.95rem; max-width: 180px; }
+.player-name-form button { padding: 6px 12px; font-size: 0.9rem; }

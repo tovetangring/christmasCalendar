@@ -13,6 +13,9 @@ import { isUnlocked, isDebug } from '../lib/unlock'
 import { DoorModal } from './DoorModal'
 import { Leaderboard } from './Leaderboard'
 import { Room } from './Room'
+import { PlayerName } from './PlayerName'
+import { useChosenName } from '../lib/profile'
+import { genitive } from '../calendars'
 
 // The home page has fixed zones, so nothing jumps around when the tree or a highscore list appears:
 // top row = the Christmas room (with the tree) and the calendar doors in equally tall frames;
@@ -23,6 +26,10 @@ export function CalendarGrid({ calendar, footer }: { calendar: Calendar; footer?
   const tree = useTree(calendar.id)
   const candy = useCandy(calendar.id)
   const items = useItems(calendar.id)
+  // A name the player picked themselves replaces the default one everywhere.
+  const chosenName = useChosenName(calendar.id)
+  const player = chosenName ?? calendar.player
+  const title = chosenName ? `${genitive(chosenName)} julkalender` : calendar.name
   const wrappedGift = useWrappedGift(calendar.id)
   const [activeDay, setActiveDay] = useState<number | null>(null)
   // A game's highscore list is a surprise until its door has been opened.
@@ -35,7 +42,8 @@ export function CalendarGrid({ calendar, footer }: { calendar: Calendar; footer?
 
   return (
     <main className="page wide-page">
-      <h1>{calendar.name}</h1>
+      <h1>{title}</h1>
+      <PlayerName calendarId={calendar.id} name={player} />
       {isDebug() && <p className="hint">Testläge: alla luckor är upplåsta</p>}
       <div className="pockets">
       {candy > 0 && (
@@ -101,7 +109,7 @@ export function CalendarGrid({ calendar, footer }: { calendar: Calendar; footer?
         )}
       </div>
 
-      {active && <DoorModal door={active} calendarId={calendar.id} player={calendar.player} onClose={() => setActiveDay(null)} />}
+      {active && <DoorModal door={active} calendarId={calendar.id} player={player} onClose={() => setActiveDay(null)} />}
       {footer ?? (
         <a className="back" href="#/">
           ← Byt kalender
