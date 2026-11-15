@@ -10,6 +10,7 @@ import { Snowman } from './Snowman'
 import { RoomGramophone } from './Gramophone'
 import { GiftBox, PaperPatterns } from './WrappedGift'
 import type { GiftStyle } from '../lib/wrappedGift'
+import { SantaFigure, SantaGift } from './Santa'
 import { ICONS } from '../lib/icons'
 import { DECORATIONS } from '../games/tree/decorations'
 import type { Items } from '../lib/items'
@@ -45,9 +46,13 @@ type RoomProps = {
   candles: boolean[] // which of the four Advent candles are lit
   wrappedGift: GiftStyle | null // the present you wrapped in door 22
   onUnwrap: () => void
+  // Door 24 (the Christmas Eve finale) only:
+  celebrate?: boolean // every light on and the cat purring
+  santa?: 'knock' | 'door' | null // knocking on the door, or standing in the open doorway
+  cookiesEaten?: boolean // Santa has just eaten the cookies (before his present is there)
 }
 
-export function Room({ tree, showProgress, items, candles, wrappedGift, onUnwrap }: RoomProps) {
+export function Room({ tree, showProgress, items, candles, wrappedGift, onUnwrap, celebrate = false, santa = null, cookiesEaten = false }: RoomProps) {
   const { rug, treeStand, fish, cat, armchair, wreath, curtains, garland, scissors: hasScissors } = items
   const wrapped = !items.unwrapped
   const [cutting, setCutting] = useState(false) // the cut animation is playing
@@ -163,7 +168,7 @@ export function Room({ tree, showProgress, items, candles, wrappedGift, onUnwrap
         <rect x="14" y="216" width="152" height="10" rx="2" fill="#d8cdb5" />
         <g data-slot="curtains">{curtains && <RoomCurtains />}</g>
         {/* the plate of cookies for Santa on the window sill (door 9) */}
-        <g data-slot="cookies" transform="translate(84 217)">{items.cookies && <CookiePlate />}</g>
+        <g data-slot="cookies" transform="translate(84 217)">{items.cookies && <CookiePlate eaten={items.santaGift || cookiesEaten} />}</g>
 
         {/* Fireplace: mantel, stone, fire and the four Advent candles */}
         <rect x="236" y="166" width="176" height="164" fill="url(#room-bricks)" />
@@ -200,16 +205,25 @@ export function Room({ tree, showProgress, items, candles, wrappedGift, onUnwrap
           </g>
         ))}
 
-        {/* Front door */}
+        {/* Front door (it opens for Santa in door 24, showing the snowy night behind it) */}
         <rect x="428" y="70" width="112" height="262" rx="3" fill="#3d2412" />
-        <rect x="436" y="78" width="96" height="254" fill="#8a5a2b" />
-        {[0, 1].map((col) =>
-          [0, 1, 2].map((row) => (
-            <rect key={`${col}${row}`} x={446 + col * 42} y={92 + row * 76} width="34" height="62" rx="2" fill="#7a4c22" stroke="#5a3516" strokeWidth="2" />
-          )),
+        <rect x="436" y="78" width="96" height="254" fill="url(#room-night)" />
+        <rect x="436" y="314" width="96" height="18" fill="#eef4fb" />
+        {santa === 'door' && (
+          <g transform="translate(486 330)">
+            <SantaFigure waving />
+          </g>
         )}
-        <circle cx="520" cy="206" r="5" fill="#e6c25a" />
-        <g data-slot="wreath" transform="translate(484 142) scale(0.6)">{wreath && <Wreath />}</g>
+        <g className={`room-door ${santa === 'knock' ? 'knocking' : ''} ${santa === 'door' ? 'open' : ''}`}>
+          <rect x="436" y="78" width="96" height="254" fill="#8a5a2b" />
+          {[0, 1].map((col) =>
+            [0, 1, 2].map((row) => (
+              <rect key={`${col}${row}`} x={446 + col * 42} y={92 + row * 76} width="34" height="62" rx="2" fill="#7a4c22" stroke="#5a3516" strokeWidth="2" />
+            )),
+          )}
+          <circle cx="520" cy="206" r="5" fill="#e6c25a" />
+          <g data-slot="wreath" transform="translate(484 142) scale(0.6)">{wreath && <Wreath />}</g>
+        </g>
 
         {/* A spot for the tree (and later a rug under it) */}
         <g data-slot="rug">
@@ -228,7 +242,7 @@ export function Room({ tree, showProgress, items, candles, wrappedGift, onUnwrap
         <g data-slot="gramophone" transform="translate(206 338)">{items.gramophone && <RoomGramophone />}</g>
         <g data-slot="armchair" transform="translate(486 484)">{armchair && <Armchair />}</g>
         {/* Floor life: the fish from door 5, or the black cat once it has eaten it (door 16) */}
-        <g data-slot="floor-pet" transform="translate(332 474)">{cat ? <RoomCat /> : fish ? <FloorFish /> : null}</g>
+        <g data-slot="floor-pet" transform="translate(332 474)">{cat ? <RoomCat purring={celebrate} /> : fish ? <FloorFish /> : null}</g>
         {/* The tree stand sits on the rug, behind the tree (the trunk base is at about 126, 470) */}
         <g data-slot="stand">
           {treeStand &&
@@ -243,9 +257,11 @@ export function Room({ tree, showProgress, items, candles, wrappedGift, onUnwrap
             ))}
         </g>
         <g className="tree-pop">
-          {tree.chopped && <ChristmasTree tree={tree} garland={items.treeGarland} x={28} y={212} width={196} height={274} />}
+          {tree.chopped && <ChristmasTree tree={tree} garland={items.treeGarland} forceLit={celebrate} x={28} y={212} width={196} height={274} />}
         </g>
         {/* the present you wrapped yourself (door 22), in front of the tree */}
+        {/* Santa's golden present (door 24) */}
+        <g data-slot="santa-gift" transform="translate(34 500)">{items.santaGift && <SantaGift />}</g>
         <g data-slot="wrapped-gift" transform="translate(222 492)">
           {wrappedGift && <GiftBox prefix="room-gift" paper={wrappedGift.paper} ribbon={wrappedGift.ribbon} w={34} h={27} />}
         </g>

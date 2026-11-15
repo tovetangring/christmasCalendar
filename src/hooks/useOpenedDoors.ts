@@ -7,6 +7,8 @@ const store = createStore<number[]>('opened', (raw) => {
   return Array.isArray(v) ? v.filter((n): n is number => typeof n === 'number') : []
 })
 
+export const getOpenedDoors = store.get
+
 export function useOpenedDoors(calendarId: string) {
   const opened = store.use(calendarId)
   const markOpened = useCallback(

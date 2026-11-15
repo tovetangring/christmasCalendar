@@ -31,19 +31,27 @@ export function CookieShape({ kind, x, y, scale = 1, color, iced = false, rotate
 }
 
 // A plate of iced cookies with a glass of milk, standing on the window sill. Origin = where the plate touches the sill.
-export function CookiePlate() {
+// `eaten`: Santa has been (door 24) and only crumbs and an empty glass are left.
+export function CookiePlate({ eaten = false }: { eaten?: boolean }) {
   return (
     <g>
       <ellipse cx="0" cy="0" rx="24" ry="4.5" fill="#cfd8e0" />
       <ellipse cx="0" cy="-1.5" rx="21" ry="3.6" fill="#ffffff" stroke="#b9c4ce" strokeWidth="1" />
-      <CookieShape kind="heart" x={-9} y={-7} scale={0.55} color="#c98a3e" iced rotate={-12} />
-      <CookieShape kind="tree" x={9} y={-8} scale={0.55} color="#b97a34" iced rotate={10} />
-      <CookieShape kind="star" x={0} y={-12} scale={0.55} color="#c98a3e" iced rotate={4} />
+      {eaten ? (
+        [-10, -5, 2, 6, 11].map((x, i) => <circle key={x} cx={x} cy={-2.5 - (i % 2)} r={1 + (i % 3) * 0.4} fill="#b97a34" />)
+      ) : (
+        <>
+          <CookieShape kind="heart" x={-9} y={-7} scale={0.55} color="#c98a3e" iced rotate={-12} />
+          <CookieShape kind="tree" x={9} y={-8} scale={0.55} color="#b97a34" iced rotate={10} />
+          <CookieShape kind="star" x={0} y={-12} scale={0.55} color="#c98a3e" iced rotate={4} />
+        </>
+      )}
       {/* the glass of milk */}
       <g transform="translate(34 0)">
         <path d="M-6 -22 L6 -22 L5 0 L-5 0 Z" fill="rgba(220,235,245,0.55)" stroke="#9fb3c2" strokeWidth="1" />
-        <path d="M-5.6 -16 L5.6 -16 L5 0 L-5 0 Z" fill="#fbfdff" />
-        <ellipse cx="0" cy="-16" rx="5.6" ry="1.4" fill="#ffffff" />
+        {!eaten && <path d="M-5.6 -16 L5.6 -16 L5 0 L-5 0 Z" fill="#fbfdff" />}
+        {!eaten && <ellipse cx="0" cy="-16" rx="5.6" ry="1.4" fill="#ffffff" />}
+        {eaten && <path d="M-5 -2 L5 -2 L5 0 L-5 0 Z" fill="#fbfdff" />}
       </g>
     </g>
   )

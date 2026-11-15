@@ -50,10 +50,21 @@ export function BlackCat() {
 }
 
 // The cat in the room: click it and it blinks, purrs (a soft sound and a little shiver) and a red heart floats up.
-export function RoomCat() {
+// `purring`: it purrs by itself every couple of seconds (the celebration in door 24).
+export function RoomCat({ purring = false }: { purring?: boolean }) {
   const [petting, setPetting] = useState(false)
   const timer = useRef<number | undefined>(undefined)
   useEffect(() => () => window.clearTimeout(timer.current), [])
+  useEffect(() => {
+    if (!purring) return
+    const show = () => {
+      setPetting(true)
+      timer.current = window.setTimeout(() => setPetting(false), 1700)
+    }
+    show()
+    const every = window.setInterval(show, 2600)
+    return () => window.clearInterval(every)
+  }, [purring])
 
   function pet() {
     if (petting) return

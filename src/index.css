@@ -333,3 +333,30 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 .wrap-flap:hover, .wrap-flap:focus-visible { outline: none; filter: brightness(1.2) drop-shadow(0 0 4px #f4d58d); }
 .wrap-folded { transform-box: view-box; animation: wrap-fold 0.35s ease-out; }
 @keyframes wrap-fold { from { transform: var(--fold); } }
+
+/* Door 24: the front door opens for Santa */
+.room-door { transform-box: view-box; transform-origin: 436px 200px; transition: transform 0.9s ease-in-out; }
+.room-door.open { transform: scaleX(0.14); }
+.room-door.knocking { animation: door-knock 0.25s ease-in-out 3; }
+@keyframes door-knock { 50% { transform: translateX(1.5px); } }
+.santa-wave { transform-box: fill-box; transform-origin: 0% 100%; animation: santa-wave 0.6s ease-in-out infinite alternate; }
+@keyframes santa-wave { from { transform: rotate(-8deg); } to { transform: rotate(10deg); } }
+
+/* Door 24: the Christmas Eve finale */
+.finale-door { text-align: center; margin: 4px 0 8px; }
+.finale-room { position: relative; margin: 8px 0; }
+.finale-room .room-panel { padding: 6px; }
+.finale-chill { position: absolute; inset: 6px; border-radius: 8px; background: #0d1a3a; pointer-events: none; transition: opacity 1.2s ease; mix-blend-mode: multiply; }
+.finale-room.warm .room { filter: saturate(1.15) brightness(1.05); transition: filter 1.5s ease; }
+.finale-room .room { transition: filter 1.5s ease; }
+.finale-room.cold .room { filter: saturate(0.4) brightness(0.8); }
+.finale-room.looking-back [data-slot] > * { animation: finale-fade-in 0.9s ease-out; }
+@keyframes finale-fade-in { from { opacity: 0; transform: translateY(-6px); } }
+.finale-sparks { position: absolute; inset: 6px; width: calc(100% - 12px); height: calc(100% - 12px); pointer-events: none; overflow: visible; }
+.finale-caption { min-height: 2.4em; font-size: 1.05rem; }
+.santa-card { position: absolute; left: 50%; top: 50%; width: 78%; transform: translate(-50%, -50%) rotate(-1.5deg); padding: 22px 26px; background: #fff8e6; color: #3a2a12; border: 3px solid #c9a85c; border-radius: 8px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.55); text-align: left; animation: santa-card 0.7s ease-out; }
+.santa-card p { margin: 0 0 10px; line-height: 1.5; font-style: italic; }
+.santa-card-title { font-size: 1.4rem; font-weight: bold; font-style: normal !important; color: #a8262e; text-align: center; }
+.santa-card-sign { text-align: right; font-weight: bold; }
+@keyframes santa-card { from { opacity: 0; transform: translate(-50%, -40%) scale(0.6) rotate(-8deg); } }
+@media (prefers-reduced-motion: reduce) { .santa-card, .finale-room.looking-back [data-slot] > * { animation: none; } }

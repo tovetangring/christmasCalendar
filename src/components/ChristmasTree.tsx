@@ -17,13 +17,13 @@ const LIGHTS: [number, number][] = TIERS.flatMap((tier, i) => {
 })
 const LIGHT_COLORS = ['#ffd54a', '#ff5e5e', '#5ec8ff', '#7dff8a']
 
-type Props = { tree: TreeState; garland?: boolean; x: number; y: number; width: number; height: number }
+type Props = { tree: TreeState; garland?: boolean; forceLit?: boolean; x: number; y: number; width: number; height: number }
 
 // The tree as an <svg> (nested inside the room scene), positioned by x/y/width/height.
 // `garland` = the tinsel garland from door 15.
-export function ChristmasTree({ tree, garland = false, x, y, width, height }: Props) {
+export function ChristmasTree({ tree, garland = false, forceLit = false, x, y, width, height }: Props) {
   const has = (id: string) => tree.decorations.some((d) => d === id)
-  const lit = isLit(tree)
+  const lit = forceLit || isLit(tree) // forceLit: all the lights on for Christmas Eve (door 24)
 
   return (
       <svg x={x} y={y} width={width} height={height} viewBox="0 0 200 280" className={`xmas-tree ${lit ? 'lit' : ''}`} role="img" aria-label="Din julgran">

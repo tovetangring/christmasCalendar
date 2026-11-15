@@ -113,6 +113,11 @@ export const sounds = {
     tone(freq * 2.01, 0.6, { volume: 0.035, delay })
     tone(freq * 3.02, 0.3, { type: 'triangle', volume: 0.018, delay })
   },
+  knock: () => {
+    tone(130, 0.12, { type: 'square', volume: 0.16, slideTo: 70 })
+    tone(130, 0.12, { type: 'square', volume: 0.16, slideTo: 70, delay: 0.25 })
+    tone(130, 0.12, { type: 'square', volume: 0.16, slideTo: 70, delay: 0.5 })
+  },
   cut: () => tone(520, 0.07, { type: 'triangle', volume: 0.06, slideTo: 780 }),
   miss: () => tone(420, 0.12, { volume: 0.05, slideTo: 250 }),
   // The creak and crash of a falling tree.
